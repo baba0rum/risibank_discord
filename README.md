@@ -1,7 +1,7 @@
 # risibank pour discord
 
 Installation:
-Il faut un CSP (Content Security Policy) modifié uniquement pour les pages discord
+Il faut un CSP (Content Security Policy) modifié uniquement pour les pages discord.
 Pour firefox il existe CSP Laboratory disponnible ici:
 https://addons.mozilla.org/en-US/firefox/addon/laboratory-by-mozilla/
 L'installer, ensuite cliquez sur le logo du plugin, activez le Custom CSP, collez et validez ceci:
