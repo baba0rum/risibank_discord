@@ -22,3 +22,7 @@ Maintenant ouvrez un onglet discord, quand la page est bien chargée, tout en ha
 Augmentez "5000" (5000 = 5 secondes, 1 seconde=1000), sauvegardez et réessayez. 
 
 Le tour est joué. Comme le script est en beta, pas de visualisation quand vous écrivez un message ou une boite avec tout les stickers compris dans le script (stickers manuellement ajouté). Vous pouvez consulter les stickers déjà ajouté dans le "sticker.list" tout en haut.
+
+Le plugin devrait ce mettre a jour tout seul quand tampermonkey décide de le faire (aucune idée de quand il le fait car osef), vous pouvez quand même forcer une MAJ en cliquant sur la colone "dernière mise a jour" sur la ligne du script. En principe, pas besoin de maj le script pour ajouter des stickers, la page stickers.list prend le relais maintenant ce qui veux dire que ont a plus besoin de ce partager le script avec pastebin et tout ce que ça implique... :hap:
+
+Voila
