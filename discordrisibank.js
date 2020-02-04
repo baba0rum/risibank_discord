@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      2
+// @version      3
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
