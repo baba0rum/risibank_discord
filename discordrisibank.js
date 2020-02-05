@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      3
+// @version      4
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -17,57 +17,12 @@
 (function() {
     'use strict';
 
-
-    function risibankstickers(){
-        // read text from URL location
-        var content = document.body.textContent || document.body.innerText;
-        var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
-        if(hasText){
-
-            var request = new XMLHttpRequest();
-            request.open('GET', 'https://raw.githubusercontent.com/baba0rum/risibank_discord/master/style_bordel.html', true);
-            request.send(null);
-            request.onreadystatechange = function () {
-                if (request.readyState === 4 && request.status === 200) {
-                    var type = request.getResponseHeader('Content-Type');
-
-                    let messagest = document.querySelectorAll('.title-29uC1r');
-
-                    Array.from(messagest).forEach(message => {
-
-                        message.innerHTML = message.innerHTML + request.responseText;
-
-
-                    })
-
-
-
-
-                }
-            }
-
-        }
-    }
-
-
-
-
-    const apply_styles = (message) => {
-        //         message.onmouseover = () => {
-        //             message.style.cssText = 'background-color:rgba(0,0,0,.1);cursor:pointer';
-        //         }
-        //         message.onmouseout = () => {
-        //             message.style.cssText = '';
-        //         }
-    }
-
     var stickername = [];
     var stickerurl = [];
 
     const update_messages = () => {
 
 
-        //         let messages = document.querySelectorAll('.containerCozyBounded-1rKFAn .markup-2BOw-j');
         let messages = document.querySelectorAll('.cozyMessage-3V1Y8y .markup-2BOw-j');
 
         Array.from(messages).forEach(message => {
@@ -114,8 +69,7 @@
             if (nom!== ""){
 
 
-                //var content = document.body.textContent || document.body.innerText;
-                var content = document.body.textContent;
+                =                var content = document.body.textContent;
 
                 var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
                 if(!hasText){
@@ -186,7 +140,6 @@
                             }
 
                         })
-                        //                     risibankstickers();
 
                     })
                 }
@@ -194,7 +147,6 @@
 
                 Array.from(messagest).forEach(message => {
 
-                    //                     message.innerHTML = message.innerHTML + '<img title="' + nom + '"src="http://' + url + '" width="48" height="36">';
 
                 })
 
@@ -207,7 +159,6 @@
     };
 
     function getText(){
-        // read text from URL location
         var content = document.body.textContent || document.body.innerText;
         var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
         if(!hasText){
