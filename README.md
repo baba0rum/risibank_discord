@@ -1,4 +1,4 @@
-# risibank pour discord
+# risibank pour discord navigateur (betterdiscord en cour)
 
 Installation:
 Il faut un CSP (Content Security Policy) modifié uniquement pour les pages discord.
