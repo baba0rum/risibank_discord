@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      4
+// @version      3.5
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -69,7 +69,7 @@
             if (nom!== ""){
 
 
-                =                var content = document.body.textContent;
+                var content = document.body.textContent;
 
                 var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
                 if(!hasText){
