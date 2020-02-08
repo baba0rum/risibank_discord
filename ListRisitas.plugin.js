@@ -27,7 +27,7 @@ class ExamplePlugin {
 			message.innerHTML = message.innerHTML + ' | RISIBANK DISCORD      " + <img src="http://i.imgur.com/V9OsBLW.png">';
 			
 			// On ajoute le button avec son ID pour identifier et sa classe OFF (important)
-			$(".buttons-3JBrkn").append('<button id="ButtonRisitas" class="off" style=" background-color: transparent;"> <img src=" https://image.noelshack.com/fichiers/2018/25/2/1529422413-risitaszoom.png" style="width: 57px;"> </button>');
+			$(".buttons-3JBrkn").append('<button id="ButtonRisitas" class="off" style=" background-color: transparent;"> <img src=" https://image.noelshack.com/fichiers/2018/25/2/1529422413-risitaszoom.png" style="width: 36px;"> </button>');
 			// On ajoute un évenement de click, quand on clique le button, il réalisera des actions suivants
 			$("#ButtonRisitas").click(function () {
 			
