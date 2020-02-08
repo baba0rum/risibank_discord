@@ -1,5 +1,10 @@
 //META{"name":"ExamplePlugin"}*//
 
+	var stickersname= [ ];
+	var stickersurl= [ ];
+	var stickernull= [ ];
+	
+	
 class ExamplePlugin {
     getName() { return "risitest"; } // Name of your plugin to show on the plugins page 
     getDescription() { return "Describe the basic functions. Maybe a support server link."; } // Description to show on the plugins page 
@@ -9,8 +14,8 @@ class ExamplePlugin {
 	
     lancement1() {
 
-	var stickersname= [ ];
-	var stickersurl= [ ];
+	// var stickersname= [ ];
+	// var stickersurl= [ ];
 	var content = document.body.textContent;
 
 	var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
@@ -36,29 +41,7 @@ class ExamplePlugin {
 					
 					
 					
-					var request = new XMLHttpRequest();
-					request.open('GET', 'https://raw.githubusercontent.com/baba0rum/risibank_discord/master/stickers.list', true);
-					request.send(null);
-					request.onreadystatechange = function () {
-						if (request.readyState === 4 && request.status === 200)
-						{
-							var type = request.getResponseHeader('Content-Type');
-							if (type.indexOf(":") !== 1)
-							{
-
-								var lines = request.responseText.split('\n');
-								for(var i = 0;i < lines.length;i++){
-								
-									if (lines[i].split(':')[0].length >=2)
-									{
-										stickersname[i] = lines[i].split(':')[0]
-										stickersurl[i] = lines[i].split(':')[1]
-										$(".ListRisitas").append('<img class="stickerRisitas" id=":' + stickersname[i] + ':" title=":' + stickersname[i] + ':" src="http://' + stickersurl[i] + '" width="48" height="36">');
-									}
-								}
-							}
-						}
-					}
+					
 					
 
 					// On crée une balise Div avec la classe ListRisitas pour identifier qui sera utile juste après et qui contient des stickers de risitas
@@ -91,12 +74,35 @@ class ExamplePlugin {
 		
 	} // Called when the plugin is activated (including after reloads)
 
-	 
-    start() {
 
+	start() {
 
-		
-	setTimeout(this.lancement1, 1000);
+var request = new XMLHttpRequest();
+					request.open('GET', 'https://raw.githubusercontent.com/baba0rum/risibank_discord/master/stickers.list', true);
+					request.send(null);
+					request.onreadystatechange = function () {
+						if (request.readyState === 4 && request.status === 200)
+						{
+							var type = request.getResponseHeader('Content-Type');
+							if (type.indexOf(":") !== 1)
+							{
+
+								var lines = request.responseText.split('\n');
+								for(var i = 0;i < lines.length;i++){
+								
+									if (lines[i].split(':')[0].length >=2)
+									{
+										stickersname[i] = lines[i].split(':')[0]
+										stickersurl[i] = lines[i].split(':')[1]
+										
+										$(".ListRisitas").append('<img class="stickerRisitas" id=":' + stickersname[i] + ':" title=":' + stickersname[i] + ':" src="http://' + stickersurl[i] + '" width="48" height="36">');
+									}
+								}
+							}
+						}
+					}
+	
+	setTimeout(this.lancement1, 2500);
 		
 	} // Called when the plugin is activated (including after reloads)
     stop() {
@@ -104,10 +110,53 @@ class ExamplePlugin {
 		
 	} // Called when the plugin is deactivated
 	
+	trouvesticker(){
+		
+	if (stickernull != stickersname)
+	{
+		// alert("ok");
+		let messages = document.querySelectorAll('.cozyMessage-3V1Y8y .markup-2BOw-j');
+
+		Array.from(messages).forEach(message => {
+
+				// alert("messages");
+			var content = message.innerHTML;
+			for(var i = 0;i < stickersname.length;i++)
+			{
+				// alert("array");
+				
+				var hasText = content.indexOf(":" + stickersname[i] + ":")!==-1;
+				if(hasText){
+					message.innerHTML = message.innerHTML.replace(":" + stickersname[i] + ":", '<img title="' + stickersname[i] + '" src="https://' + stickersurl[i] + '" width="48" height="36">');
+
+				}
+			}
+
+		});
+	}
+	}
 	
     observer(changes) {
 		
+	if ($("#ButtonRisitas").hasClass('off') || $("#ButtonRisitas").hasClass('on'))
+	{
+		
+			setTimeout(this.lancement1, 1000);
+			setTimeout(this.trouvesticker, 1000);		
+
+	}
+	else
+	{
+		
+		setTimeout(this.lancement1, 1000);	
+
+		
+		setTimeout(this.trouvesticker, 1000);		
+		
+	}
 	
+
+		
 		$('.stickerRisitas').bind('click', function () {
 		
 			var idImage = $(this).attr('id');
@@ -119,11 +168,15 @@ class ExamplePlugin {
 				//On surprime la balise Div
 				$(".ListRisitas").remove();
 				
+			
+	  
 				$('[role="textbox"] div span span span').append(idImage);
 
 			}
 			return;
 		});
+		
+
 		
 	}
 }
