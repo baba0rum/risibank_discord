@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      3.5
+// @version      3.6
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -123,7 +123,13 @@
 
                                     $('[role="textbox"] div span span span').text(idImage);
 
+                                    if ($("#ButtonRisitas").hasClass('on')) {
+                                        $("#ButtonRisitas").addClass('off');
+                                        $("#ButtonRisitas").removeClass('on');
 
+                                        //On surprime la balise Div
+                                        $(".ListRisitas").remove();
+                                    }
 
 
                                 });
