@@ -178,8 +178,9 @@ class ExamplePlugin {
 				$(".ListRisitas").remove();
 				
 			
-	  
-				$('[role="textbox"] div span span span').append(idImage);
+				document.execCommand('insertText', false, idImage + " " )
+
+				// $('[role="textbox"] div span span span').append(idImage);
 
 			}
 			return;
