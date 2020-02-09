@@ -1,5 +1,12 @@
 # risibank pour discord navigateur (betterdiscord en cour)
 
+POUR BETTERDISCORD: 
+Suivre le wiki
+https://github.com/baba0rum/risibank_discord/wiki/Installation-le-script-dans-le-Discord-App
+
+
+POUR NAVIGATEUR:
+
 Installation:
 Il faut un CSP (Content Security Policy) modifié uniquement pour les pages discord.
 Pour firefox il existe CSP Laboratory disponnible ici:
