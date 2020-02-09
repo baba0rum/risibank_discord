@@ -20,6 +20,34 @@ class ExamplePlugin {
 
 	var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
 	if(!hasText){
+		
+		
+		var request = new XMLHttpRequest();
+					request.open('GET', 'https://raw.githubusercontent.com/baba0rum/risibank_discord/master/stickers.list', true);
+					request.send(null);
+					request.onreadystatechange = function () {
+						if (request.readyState === 4 && request.status === 200)
+						{
+							var type = request.getResponseHeader('Content-Type');
+							if (type.indexOf(":") !== 1)
+							{
+
+								var lines = request.responseText.split('\n');
+								for(var i = 0;i < lines.length;i++){
+								
+									if (lines[i].split(':')[0].length >=2)
+									{
+										stickersname[i] = lines[i].split(':')[0]
+										stickersurl[i] = lines[i].split(':')[1]
+									}
+								}
+							}
+						}
+					}
+		
+		
+		
+		
 		let messagest = document.querySelectorAll('.title-29uC1r');
 
 		Array.from(messagest).forEach(message => {
@@ -44,8 +72,7 @@ class ExamplePlugin {
 					$(".chatContent-a9vAAp .layerContainer-yqaFcK").append('<div class="ListRisitas layer-v9HyYc"> </div> ');
 
 					// On stylésie grâce le code CSS
-					$(".ListRisitas").css({ "background-color": "grey", "width": "500px", "height": "300px", "right": "60px", "bottom": "82px" });
-					
+					$(".ListRisitas").css({ "background-color": "grey", "width": "500px", "height": "300px", "right": "60px", "bottom": "82px", "overflow": "auto" });					
 					
 					for(var i = 0;i < stickersname.length;i++){
 					
@@ -165,7 +192,7 @@ class ExamplePlugin {
 	}
 	
 
-		
+	
 		$('.stickerRisitas').bind('click', function () {
 		
 			var idImage = $(this).attr('id');
