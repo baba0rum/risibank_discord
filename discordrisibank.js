@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      3.6
+// @version      4
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -121,7 +121,8 @@
                                     var idImage = $(this).attr('id');
                                     // On cible le textox grâce le rôle textbox pour ajouter le code grâce la variable idImage qui stocke le nom de code
 
-                                    $('[role="textbox"] div span span span').text(idImage);
+                                    document.execCommand('insertText', false, idImage + " ")
+//                                     $('[role="textbox"] div span span span').text(idImage);
 
                                     if ($("#ButtonRisitas").hasClass('on')) {
                                         $("#ButtonRisitas").addClass('off');
