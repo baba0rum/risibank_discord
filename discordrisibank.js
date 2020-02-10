@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      4
+// @version      5
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -97,7 +97,7 @@
 
 
                                 // On stylésie grâce le code CSS
-                                $(".ListRisitas").css({ "background-color": "grey", "width": "500px", "height": "300px", "right": "60px", "bottom": "82px" });
+                                $(".ListRisitas").css({ "background-color": "grey", "width": "500px", "height": "300px", "right": "60px", "bottom": "82px", "overflow": "auto" });
 
                                 // On ajoute les sticker dans la balise Div grâce l'identification de la classe ListRisitas
 
