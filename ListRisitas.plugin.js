@@ -3,7 +3,7 @@
 	var stickersname= [ ];
 	var stickersurl= [ ];
 	var stickernull= [ ];
-	
+	var lastfoc="";
 	
 class ExamplePlugin {
     getName() { return "risitest"; } // Name of your plugin to show on the plugins page 
@@ -14,8 +14,6 @@ class ExamplePlugin {
 	
     lancement1() {
 
-	// var stickersname= [ ];
-	// var stickersurl= [ ];
 	var content = document.body.textContent;
 
 	var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
@@ -53,6 +51,9 @@ class ExamplePlugin {
 		Array.from(messagest).forEach(message => {
 			
 			message.innerHTML = message.innerHTML + ' | RISIBANK DISCORD      " + <img src="http://i.imgur.com/V9OsBLW.png">';
+
+			lastfoc = document.activeElement;
+
 			
 			// On ajoute le button avec son ID pour identifier et sa classe OFF (important)
 			$(".buttons-3JBrkn").append('<button id="ButtonRisitas" class="off" style=" background-color: transparent;"> <img src=" https://image.noelshack.com/fichiers/2018/25/2/1529422413-risitaszoom.png" style="width: 36px;"> </button>');
@@ -70,9 +71,11 @@ class ExamplePlugin {
 
 					// On crée une balise Div avec la classe ListRisitas pour identifier qui sera utile juste après et qui contient des stickers de risitas
 					$(".chatContent-a9vAAp .layerContainer-yqaFcK").append('<div class="ListRisitas layer-v9HyYc"> </div> ');
-
+					$(".ListRisitas").append('<input class="risisearch type="text" id="risisearch" value="" placeholder="nom du sticker"> Liste</input><br>');
+														
+					
 					// On stylésie grâce le code CSS
-					$(".ListRisitas").css({ "background-color": "grey", "width": "500px", "height": "300px", "right": "60px", "bottom": "82px", "overflow": "auto" });					
+					$(".ListRisitas").css({ "background-color": "grey", "width": "500px", "height": "300px", "right": "60px", "bottom": "82px", "overflow": "auto", "color": "white" });					
 					
 					for(var i = 0;i < stickersname.length;i++){
 					
@@ -146,16 +149,14 @@ class ExamplePlugin {
 			
 			try
 			{
-				// alert("ok");
-				let messages = document.querySelectorAll('.cozyMessage-3V1Y8y .markup-2BOw-j');
+
+			let messages = document.querySelectorAll('.cozyMessage-3V1Y8y .markup-2BOw-j');
 
 				Array.from(messages).forEach(message => {
 
-						// alert("messages");
-					var content = message.innerHTML;
+				var content = message.innerHTML;
 					for(var i = 0;i < stickersname.length;i++)
 					{
-						// alert("array");
 						
 						var hasText = content.indexOf(":" + stickersname[i] + ":")!==-1;
 						if(hasText){
@@ -173,6 +174,29 @@ class ExamplePlugin {
 	}
 	
     observer(changes) {
+	$(document).ready(function(){
+		$("#risisearch").keyup(function(){
+
+		
+			var text2 = $(this).val();
+			if (text2.length >0)
+			{
+				$('.stickerRisitas').hide();
+				$("[id*='"+text2+"']").show();
+
+
+			}
+			else{
+				$('.stickerRisitas').show();
+
+			}
+
+
+		});
+	});
+		
+		
+		
 		
 	if ($("#ButtonRisitas").hasClass('off') || $("#ButtonRisitas").hasClass('on'))
 	{
@@ -195,19 +219,21 @@ class ExamplePlugin {
 	
 		$('.stickerRisitas').bind('click', function () {
 		
+			
+	
 			var idImage = $(this).attr('id');
 			
 			if ($("#ButtonRisitas").hasClass('on')) {
-				$("#ButtonRisitas").addClass('off');
-				$("#ButtonRisitas").removeClass('on');
+					$("#ButtonRisitas").addClass('off');
+					$("#ButtonRisitas").removeClass('on');
+					
+					document.getElementById("risisearch").style.display = 'none';
+					lastfoc.focus();
 
-				//On surprime la balise Div
-				$(".ListRisitas").remove();
+					$(".ListRisitas").remove();
+					
 				
-			
-				document.execCommand('insertText', false, idImage + " " )
-
-				// $('[role="textbox"] div span span span').append(idImage);
+					document.execCommand('insertText', false, idImage + " " )
 
 			}
 			return;
