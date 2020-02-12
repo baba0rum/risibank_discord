@@ -194,11 +194,8 @@
                     }
                 }
             }
-
-            setTimeout(getText, 3000);
         }
         else{
-            setTimeout(getText, 3000);
 
         }
 
