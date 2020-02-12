@@ -5,7 +5,7 @@
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
-// @downloadURL  https://raw.githubusercontent.com/baba0rum/risibank_discord/master/discordrisibank.js
+// @downloadURL  https://raw.githubusercontent.com/baba0rum/risibank_discord/master/ffandroid.js
 // @grant        none
 // @grant        GM_setClipboard
 // @grant        GM_getClipboard
