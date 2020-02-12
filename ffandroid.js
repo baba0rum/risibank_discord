@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Risibank discord FA firefox
+// @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      2
+// @version      3
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -90,12 +90,13 @@
                         $('.title-29uC1r').click(function () {
                             if (toggle == 0)
                             {
-                                document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 0px}</style>');
+                                document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 0px}.membersWrap-2h-GB4 {min-width: 0px}.members-1998pB {width: 0px}</style>');
                                 toggle = 1;
                             }
                             else if (toggle == 1)
                             {
-                                document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 180px}</style>');
+                                document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 180px}.membersWrap-2h-GB4 {min-width: 180px}.members-1998pB {width: 180px}</style>');
+
                                 toggle = 0;
                             }
                             return;
