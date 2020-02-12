@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Risibank discord FA v2
+// @name         Risibank discord FA firefox
 // @namespace    http://tampermonkey.net/
-// @version      5
+// @version      2
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -20,6 +20,7 @@
     var stickername = [];
     var stickerurl = [];
     var toggle = 0;
+    var firstopen = 0;
     const update_messages = () => {
 
 
@@ -73,6 +74,13 @@
 
                 var hasText = content.indexOf(" | ")!==-1;
                 if(!hasText){
+
+                    if (toggle == 0)
+                    {
+                        document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 0px}</style>');
+                        toggle=1;
+                    }
+
                     let messagest = document.querySelectorAll('.title-29uC1r');
 
                     Array.from(messagest).forEach(message => {
@@ -164,12 +172,12 @@
 
                     })
                 }
-                let messagest = document.querySelectorAll('.title-29uC1r');
+//                 let messagest = document.querySelectorAll('.title-29uC1r');
 
-                Array.from(messagest).forEach(message => {
+//                 Array.from(messagest).forEach(message => {
 
 
-                })
+//                 })
 
             }
         }
@@ -177,6 +185,8 @@
         catch (error)
         {
         }
+
+        firstopen = 1;
     };
 
     function getText(){
