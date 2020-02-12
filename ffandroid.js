@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      6
+// @version      5
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -71,15 +71,15 @@
 
                 var content = document.body.textContent;
 
-                var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
+                var hasText = content.indexOf(" | ")!==-1;
                 if(!hasText){
                     let messagest = document.querySelectorAll('.title-29uC1r');
 
                     Array.from(messagest).forEach(message => {
 
-                        message.innerHTML = message.innerHTML + " | RISIBANK DISCORD      " + '<img class="servname" id="servname" src="http://i.imgur.com/V9OsBLW.png">';
+                        message.innerHTML = message.innerHTML + " | " + '<img class="servname" id="servname" src="http://i.imgur.com/V9OsBLW.png">';
 
-                        $('.servname').click(function () {
+                        $('.title-29uC1r').click(function () {
                             if (toggle == 0)
                             {
                                 document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 0px}</style>');
@@ -181,7 +181,7 @@
 
     function getText(){
         var content = document.body.textContent || document.body.innerText;
-        var hasText = content.indexOf(" | RISIBANK DISCORD ")!==-1;
+        var hasText = content.indexOf(" | ")!==-1;
         if(!hasText){
 
             var request = new XMLHttpRequest();
