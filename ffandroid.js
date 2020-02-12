@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Risibank discord FA v2
 // @namespace    http://tampermonkey.net/
-// @version      3
+// @version      4
 // @description  risibank2
 // @author       TopicModos
 // @match        *://discordapp.com/channels/*
@@ -77,7 +77,7 @@
 
                     if (toggle == 0)
                     {
-                        document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 0px}</style>');
+                                document.head.insertAdjacentHTML('beforeend','<style>.sidebar-2K8pFh {width: 0px}.membersWrap-2h-GB4 {min-width: 0px}.members-1998pB {width: 0px}</style>');
                         toggle=1;
                     }
 
