@@ -617,7 +617,7 @@ func:function()
 		displayUsed:true,
 		tick:function(me)
 		{
-			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*1000000);
+			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*100000000000000000000000000000000000000000);
 			//me.amount=G.tiles;
 			//TODO : this stuff
 			/*
