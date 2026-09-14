@@ -617,7 +617,7 @@ func:function()
 		displayUsed:true,
 		tick:function(me)
 		{
-			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*100000000000000000000000000000000000000000);
+			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*99999999999999999999999999*100000000000000000000000000000000000000000);
 			//me.amount=G.tiles;
 			//TODO : this stuff
 			/*
@@ -1775,7 +1775,7 @@ func:function()
 		],
 		category:'production',
 		req:{'well-digging':true},
-		limitPer:{'land':10},
+		limitPer:{'land':1},
 	});
 	
 	new G.Unit({
@@ -1798,7 +1798,7 @@ func:function()
 		desc:'@carves [cut stone] out of the ground@may find other minerals such as [limestone] and [marble]<>The [quarry] dismantles the ground we stand on so that our children may reach higher heights.',
 		icon:[22,3],
 		cost:{'archaic building materials':100},
-		use:{'land':4},
+		use:{'land':0},
 		//require:{'worker':3,'stone tools':3},
 		modes:{
 			'off':G.MODE_OFF,
@@ -2203,7 +2203,7 @@ func:function()
 				}
 			},mode:'undertaker'}
 		],
-		limitPer:{'land':100},
+		limitPer:{'land':1},
 		req:{'city planning':true},
 		category:'civil',
 	});
@@ -2322,7 +2322,7 @@ func:function()
 		messageOnStart:'You begin the construction of the Mausoleum. Its towering mass already dominates the city, casting fear and awe wherever its shadow reaches.',
 		finalStepCost:{'population':100},
 		finalStepDesc:'To complete the Mausoleum, 100 of your [population,People] must be sacrificed to accompany you as servants in the afterlife.',
-		use:{'land':10},
+		use:{'land':0},
 		//require:{'worker':10,'stone tools':10},
 		req:{'monument-building':true},
 		category:'wonder',
@@ -3309,7 +3309,7 @@ func:function()
 		],
 		modifiers:{'river':0.4,'volcano':0.2,},
 		image:6,
-		score:10,
+		score:1000,
 	});
 	new G.Land({
 		name:'shrubland',
