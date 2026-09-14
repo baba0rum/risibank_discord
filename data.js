@@ -1871,7 +1871,7 @@ func:function()
 			{type:'convert',from:{'gold ore':5},into:{'precious metal ingot':1},repeat:1,mode:'gold'},
 			{type:'convert',from:{'tin ore':2,'copper ore':8},into:{'hard metal ingot':1},repeat:3,mode:'bronze'},
 			{type:'convert',from:{'iron ore':19,'coal':1},into:{'strong metal ingot':1},repeat:1,mode:'steel'},
-			{type:'waste',chance:0.001/1000},
+			{type:'waste',chance:0.001/10000000000000000},
 		],
 		gizmos:true,
 		req:{'smelting':true},
@@ -1894,7 +1894,7 @@ func:function()
 			{type:'convert',from:{'soft metal ingot':2},into:{'metal tools':1},repeat:3,mode:'metal tools'},
 			{type:'convert',from:{'hard metal ingot':1},into:{'metal tools':3},repeat:3,mode:'hard metal tools'},
 			{type:'convert',from:{'precious metal ingot':10},into:{'gold block':1},mode:'gold blocks'},
-			{type:'waste',chance:0.001/1000},
+			{type:'waste',chance:0.001/1000000000},
 			//TODO : better metal tools, weapons etc
 		],
 		gizmos:true,
@@ -1929,7 +1929,7 @@ func:function()
 		},
 		effects:[
 			{type:'convert',from:{'log':1},into:{'lumber':3},repeat:2,mode:'lumber'},
-			{type:'waste',chance:0.001/1000},
+			{type:'waste',chance:0.001/1000000000},
 		],
 		gizmos:true,
 		req:{'carpentry':true},
@@ -2136,7 +2136,7 @@ func:function()
 		//require:{'worker':3,'stone tools':3},
 		effects:[
 			{type:'provide',what:{'added material storage':400000}},
-			{type:'waste',chance:0.001/1000}
+			{type:'waste',chance:0.001/1000000000}
 		],
 		req:{'stockpiling':true,'construction':true},
 		category:'storage',
@@ -2165,7 +2165,7 @@ func:function()
 		//require:{'worker':2,'stone tools':2},
 		effects:[
 			{type:'provide',what:{'added food storage':4000000}},
-			{type:'waste',chance:0.001/1000}
+			{type:'waste',chance:0.001/1000000000}
 		],
 		req:{'stockpiling':true,'carpentry':true},
 		category:'storage',
