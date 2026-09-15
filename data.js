@@ -281,7 +281,7 @@ func:function()
 					var rations=G.checkPolicy('water rations');
 					if (rations=='none') {toConsume=0;G.gain('happiness',-me.amount*3,'water rations');G.gain('health',-me.amount*2,'water rations');}
 					else if (rations=='meager') {toConsume*=0.5;G.gain('happiness',-me.amount*1,'water rations');G.gain('health',-me.amount*0.5,'water rations')}
-					else if (rations=='plentiful') {toConsume*=1.5;G.gain('happiness',me.amount*1,'water rations');}
+					else if (rations=='plentiful') {toConsume*=1.5;G.gain('happiness',me.amount*1.2,'water rations');}
 					toConsume=randomFloor(toConsume);
 					var lacking=toConsume-G.lose('water',toConsume,'drinking');
 					if (rations=='none') lacking=me.amount*0.5;
@@ -360,12 +360,12 @@ func:function()
 				for (var i in objects)
 				{
 					fulfilled=Math.min(me.amount,Math.min(G.getRes(i).amount,leftout));
-					G.gain('happiness',9999*fulfilled*objects[i][0],'clothing');
-					G.gain('health',9999*fulfilled*objects[i][1],'clothing');
+					G.gain('happiness',fulfilled*objects[i][0],'clothing');
+					G.gain('health',fulfilled*objects[i][1],'clothing');
 					leftout-=fulfilled;
 				}
-				G.gain('happiness',-leftout*1,'no clothing');
-				G.gain('health',-leftout*1,'no clothing');
+				G.gain('happiness',-leftout*0.15,'no clothing');
+				G.gain('health',-leftout*0.15,'no clothing');
 				
 				//fire
 				var objects={'fire pit':[10,0.1,0.1]};
@@ -375,12 +375,12 @@ func:function()
 				for (var i in objects)
 				{
 					fulfilled=Math.min(me.amount,Math.min(G.getRes(i).amount*objects[i][0],leftout));
-					G.gain('happiness',fulfilled*objects[i][1],'warmth & light');
-					G.gain('health',9999*fulfilled*objects[i][2],'warmth & light');
+					G.gain('happiness',1000*fulfilled*objects[i][1],'warmth & light');
+					G.gain('health',1000*fulfilled*objects[i][2],'warmth & light');
 					leftout-=fulfilled;
 				}
-				G.gain('happiness',-leftout*1,'cold & darkness');
-				G.gain('health',-leftout*1,'cold & darkness');
+				G.gain('happiness',-leftout*0.1,'cold & darkness');
+				G.gain('health',-leftout*0.1,'cold & darkness');
 				
 				//homelessness
 				var homeless=Math.max(0,(me.amount)-G.getRes('housing').amount);
@@ -447,7 +447,7 @@ func:function()
 						var weights={'baby':2,'child':1.5,'adult':1,'elder':2};
 						if (G.checkPolicy('child workforce')=='on') weights['child']*=2;
 						if (G.checkPolicy('elder workforce')=='on') weights['elder']*=2;
-						if (G.year<5) weights['adult']=0;//adults don't fall sick the first 5 years
+						if (G.year<50000000) weights['adult']=0;//adults don't fall sick the first 5 years
 						for (var i in weights)
 						{var n=G.lose(i,randomFloor(Math.random()*G.getRes(i).amount*toChange*weights[i]),'-');changed+=n;}
 						G.gain('sick',changed,'disease');
@@ -462,7 +462,7 @@ func:function()
 					if (changed>0) G.Message({type:'bad',mergeId:'diedSick',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' died from disease.';},args:{n:changed},icon:[5,4]});
 					
 					var sickHealing=0.01;
-					if (G.checkPolicy('flower rituals')=='on') sickHealing*=10.2;
+					if (G.checkPolicy('flower rituals')=='on') sickHealing*=1.2;
 					var changed=0;
 					var n=G.lose('sick',randomFloor(Math.random()*G.getRes('sick').amount*sickHealing),'healing');G.gain('adult',n,'-');changed+=n;
 					G.gain('happiness',changed*10,'recovery');
@@ -589,10 +589,10 @@ func:function()
 			var spent=G.lose('corpse',randomFloor(toSpoil),'decay');
 			
 			var unhappiness=0.01;
-			if (G.has('burial')) unhappiness*=1;
-			if (G.has('belief in revenants')) unhappiness*=1;
+			if (G.has('burial')) unhappiness*=2;
+			if (G.has('belief in revenants')) unhappiness*=2;
 			G.gain('happiness',-me.amount*unhappiness,'corpses');
-			G.gain('health',-me.amount*1,'corpses');
+			G.gain('health',-me.amount*0.02,'corpses');
 		},
 	});
 	new G.Res({
@@ -617,7 +617,7 @@ func:function()
 		displayUsed:true,
 		tick:function(me)
 		{
-			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*99999999999999999999999999*100000000000000000000000000000000000000000);
+			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*100000000000000000000000000000*9999999900);
 			//me.amount=G.tiles;
 			//TODO : this stuff
 			/*
@@ -712,10 +712,10 @@ func:function()
 				//G.getRes('happiness').amount+=(me.amount-G.getRes('happiness').amount)*0.01;
 				G.gain('happiness',me.amount*0.001,'health');
 				
-				var sickness=0.1;
+				var sickness=0.00001;
 				sickness+=Math.pow(Math.max(0,G.getRes('population').amount-50),0.1)*0.1;//more people means more contagion
 				G.gain('health',-G.getRes('population').amount*(Math.random()*sickness),'disease');//people randomly get sick
-				var recovery=2;
+				var recovery=1.1;
 				me.amount*=recovery;//people recover over time
 			}
 		},
@@ -819,12 +819,12 @@ func:function()
 		icon:[7,6],
 		startWith:250,
 		visible:true,
-		turnToByContext:{'drinking':{'health':1,'happiness':0}},
+		turnToByContext:{'drinking':{'health':10.01,'happiness':100}},
 		tick:function(me,tick)
 		{
 			if (G.checkPolicy('disable spoiling')=='off')
 			{
-				var toSpoil=me.amount*0.52;
+				var toSpoil=me.amount*0.02;
 				var spent=G.lose('water',randomFloor(toSpoil),'decay');
 				G.gain('muddy water',randomFloor(spent),'decay');
 			}
@@ -835,7 +835,7 @@ func:function()
 		desc:'[muddy water] tastes awful and is unhealthy, but is better than dying of thirst. Your people will default to drinking it in the absence of fresh [water].//Muddy water can be collected while gathering, from stagnant pools or old rainwater; [water] also turns into muddy water over time, if not stored properly. Additionally, muddy water itself will slowly dry out.',
 		icon:[8,6],
 		visible:true,
-		turnToByContext:{'drinking':{'health':-0.3,'happiness':-0.5}},
+		turnToByContext:{'drinking':{'health':-0.03,'happiness':-0.05}},
 		tick:function(me,tick)
 		{
 			if (G.checkPolicy('disable spoiling')=='off')
@@ -888,7 +888,7 @@ func:function()
 		desc:'[herb,Herbs] are various plants, roots and mushrooms that can be collected by simply foraging around. While relatively healthy to eat, they tend to taste fairly unpleasant.',
 		icon:[4,6],
 		startWith:250,
-		turnToByContext:{'eating':{'health':0.005,'happiness':-0.03},'decay':{'herb':0.2,'spoiled food':0.8}},
+		turnToByContext:{'eating':{'health':10.005,'happiness':0.03},'decay':{'herb':0.2,'spoiled food':0.8}},
 		partOf:'food',
 		category:'food',
 	});
@@ -896,7 +896,7 @@ func:function()
 		name:'fruit',
 		desc:'[fruit,Fruits], whether gathered from berry bushes or fruit trees, are both sweet-tasting and good for you.',
 		icon:[4,7],
-		turnToByContext:{'eating':{'health':0.02,'happiness':0.01},'decay':{'spoiled food':1}},
+		turnToByContext:{'eating':{'health':2,'happiness':1},'decay':{'spoiled food':1}},
 		partOf:'food',
 		category:'food',
 	});
@@ -904,7 +904,7 @@ func:function()
 		name:'meat',
 		desc:'[meat,Raw meat] is gathered from dead animals and, while fairly tasty, can harbor a variety of diseases.',
 		icon:[5,7],
-		turnToByContext:{'eating':{'health':-0.03,'happiness':0.02,'bone':0.1},'decay':{'spoiled food':1}},
+		turnToByContext:{'eating':{'health':3,'happiness':2,'bone':0.1},'decay':{'spoiled food':1}},
 		partOf:'food',
 		category:'food',
 	});
@@ -912,7 +912,7 @@ func:function()
 		name:'cooked meat',
 		desc:'Eating [cooked meat] is deeply satisfying and may even produce a [bone].',
 		icon:[6,7],
-		turnToByContext:{'eating':{'health':0.02,'happiness':0.4,'bone':0.1},'decay':{'cooked meat':0.2,'spoiled food':0.8}},
+		turnToByContext:{'eating':{'health':2,'happiness':4,'bone':0.1},'decay':{'cooked meat':0.2,'spoiled food':0.8}},
 		partOf:'food',
 		category:'food',
 	});
@@ -920,7 +920,7 @@ func:function()
 		name:'cured meat',
 		desc:'[cured meat] is interestingly tough and can keep for months without spoiling.',
 		icon:[11,6],
-		turnToByContext:{'eating':{'health':0.02,'happiness':0.5,'bone':0.1},'decay':{'cured meat':0.95,'spoiled food':0.05}},
+		turnToByContext:{'eating':{'health':2,'happiness':1,'bone':0.1},'decay':{'cured meat':0.95,'spoiled food':0.05}},
 		partOf:'food',
 		category:'food',
 	});
@@ -928,7 +928,7 @@ func:function()
 		name:'seafood',
 		desc:'[seafood,Raw seafood] such as fish, clams, or shrimps, is both bland-tasting and several kinds of nasty.',
 		icon:[5,6],
-		turnToByContext:{'eating':{'health':-0.02,'happiness':0.01,'bone':0.02},'decay':{'spoiled food':1}},
+		turnToByContext:{'eating':{'health':0.02,'happiness':0.01,'bone':0.02},'decay':{'spoiled food':1}},
 		partOf:'food',
 		category:'food',
 	});
@@ -936,7 +936,7 @@ func:function()
 		name:'cooked seafood',
 		desc:'[cooked seafood] tastes pretty good and has various health benefits.',
 		icon:[6,6],
-		turnToByContext:{'eating':{'health':0.3,'happiness':0.03,'bone':0.02},'decay':{'cooked seafood':0.2,'spoiled food':0.8}},
+		turnToByContext:{'eating':{'health':0.03,'happiness':0.03,'bone':0.02},'decay':{'cooked seafood':0.2,'spoiled food':0.8}},
 		partOf:'food',
 		category:'food',
 	});
@@ -944,7 +944,7 @@ func:function()
 		name:'cured seafood',
 		desc:'[cured seafood] has a nice smoky flavor and lasts terribly long.',
 		icon:[12,6],
-		turnToByContext:{'eating':{'health':0.2,'happiness':0.04,'bone':0.02},'decay':{'cured seafood':0.95,'spoiled food':0.05}},
+		turnToByContext:{'eating':{'health':0.02,'happiness':0.04,'bone':0.02},'decay':{'cured seafood':0.95,'spoiled food':0.05}},
 		partOf:'food',
 		category:'food',
 	});
@@ -962,7 +962,7 @@ func:function()
 		name:'bugs',
 		desc:'Worms, insects, spiders - [bugs] are easily caught, but are usually not considered [food].',
 		icon:[8,11],
-		turnToByContext:{'eating':{'health':0,'happiness':-0.05},'decay':{'spoiled food':0.5}},
+		turnToByContext:{'eating':{'health':0,'happiness':0.05},'decay':{'spoiled food':0.5}},
 		//partOf:'food',
 		category:'food',
 		tick:function(me,tick)
@@ -1247,7 +1247,7 @@ func:function()
 		category:'gear',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.005;
+			var toSpoil=me.amount*0.000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1258,7 +1258,7 @@ func:function()
 		category:'gear',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.002;
+			var toSpoil=me.amount*0.000002;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1292,7 +1292,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.01;
+			var toSpoil=me.amount*0.000001;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 			G.pseudoGather(G.getRes('culture'),randomFloor(spent));
 		},
@@ -1312,7 +1312,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.01;
+			var toSpoil=me.amount*0.00000000001;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 			G.gain('water',randomFloor(spent*10),'ice melting');
 		},
@@ -1325,7 +1325,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.005;
+			var toSpoil=me.amount*0.0000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1336,7 +1336,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.0005;
+			var toSpoil=me.amount*0.000000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1349,7 +1349,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.01;
+			var toSpoil=me.amount*0.00000001;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1367,7 +1367,7 @@ func:function()
 			if (limit>0)
 			{
 				var mult=1;
-				if (G.year<5) mult=1.25;//faster research the first 5 years
+				if (G.year<50) mult=125;//faster research the first 5 years
 				me.amount+=randomFloor(Math.pow(1-me.amount/limit,2)*(Math.random()*amount*me.mult*mult));
 				me.amount=Math.min(me.amount,limit);
 			}
@@ -1775,7 +1775,7 @@ func:function()
 		],
 		category:'production',
 		req:{'well-digging':true},
-		limitPer:{'land':1},
+		limitPer:{'land':10},
 	});
 	
 	new G.Unit({
@@ -1871,7 +1871,7 @@ func:function()
 			{type:'convert',from:{'gold ore':5},into:{'precious metal ingot':1},repeat:1,mode:'gold'},
 			{type:'convert',from:{'tin ore':2,'copper ore':8},into:{'hard metal ingot':1},repeat:3,mode:'bronze'},
 			{type:'convert',from:{'iron ore':19,'coal':1},into:{'strong metal ingot':1},repeat:1,mode:'steel'},
-			{type:'waste',chance:0.001/10000000000000000},
+			{type:'waste',chance:0.0000000000000001/100000000000000000000000},
 		],
 		gizmos:true,
 		req:{'smelting':true},
@@ -1894,7 +1894,7 @@ func:function()
 			{type:'convert',from:{'soft metal ingot':2},into:{'metal tools':1},repeat:3,mode:'metal tools'},
 			{type:'convert',from:{'hard metal ingot':1},into:{'metal tools':3},repeat:3,mode:'hard metal tools'},
 			{type:'convert',from:{'precious metal ingot':10},into:{'gold block':1},mode:'gold blocks'},
-			{type:'waste',chance:0.00000000000001/1000000000000000000000},
+			{type:'waste',chance:0.0000000000000000001/100000000000000000000000},
 			//TODO : better metal tools, weapons etc
 		],
 		gizmos:true,
@@ -1929,7 +1929,7 @@ func:function()
 		},
 		effects:[
 			{type:'convert',from:{'log':1},into:{'lumber':3},repeat:2,mode:'lumber'},
-			{type:'waste',chance:0.00000000001/100000000000000000000000000000},
+			{type:'waste',chance:0.00000000000000000000001/1000000000000000000000},
 		],
 		gizmos:true,
 		req:{'carpentry':true},
@@ -1959,8 +1959,8 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.2},
 		effects:[
-			{type:'convert',from:{'sick':1,'herb':2.5},into:{'adult':1},chance:1/1,every:3},
-			{type:'convert',from:{'wounded':1,'herb':2.5},into:{'adult':1},chance:1/1,every:10},
+			{type:'convert',from:{'sick':1,'herb':2.5},into:{'adult':1},chance:1/2,every:3},
+			{type:'convert',from:{'wounded':1,'herb':2.5},into:{'adult':1},chance:1/5,every:10},
 		],
 		req:{'healing':true},
 		category:'spiritual',
@@ -2009,7 +2009,7 @@ func:function()
 		//require:{'worker':1,'knapped tools':1},
 		effects:[
 			{type:'provide',what:{'burial spot':1}},
-			//{type:'waste',chance:0.000000001/1000000000000000000000000000,desired:true},
+			//{type:'waste',chance:1/100,desired:true},
 			{type:'function',func:function(me){
 				var buried=G.getRes('burial spot').used;
 				if (buried>0 && G.getRes('burial spot').amount>=buried)
@@ -2034,8 +2034,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':1,'knapped tools':1},
 		effects:[
-			{type:'provide',what:{'housing':3}},
-			{type:'waste',chance:0.0000000001/100000000000000000000000000000}
+			{type:'provide',what:{'housing':300}},
+			{type:'waste',chance:0.000000000000001/10000000000000000000000000}
 		],
 		req:{'sedentism':true},
 		category:'housing',
@@ -2048,8 +2048,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':1,'knapped tools':1},
 		effects:[
-			{type:'provide',what:{'housing':30}},
-			{type:'waste',chance:0.0000000000003/1000000000000000000000000000}
+			{type:'provide',what:{'housing':300}},
+			{type:'waste',chance:0.000000000000000000003/100000000000000000000000000000}
 		],
 		req:{'sedentism':true},
 		category:'housing',
@@ -2063,7 +2063,7 @@ func:function()
 		//require:{'worker':2,'stone tools':2},
 		effects:[
 			{type:'provide',what:{'housing':500}},
-			{type:'waste',chance:0.000000000000001/1000000000000000}
+			{type:'waste',chance:0.0000000000000000000001/10000000000000000000000000000}
 		],
 		req:{'building':true},
 		category:'housing',
@@ -2076,8 +2076,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'housing':800000}},
-			{type:'waste',chance:0.000000000000003/100000000000000000000}
+			{type:'provide',what:{'housing':800}},
+			{type:'waste',chance:0.00000000000000000000003/100000000000000000000000000000000000000000000000000000}
 		],
 		req:{'cities':true},
 		category:'housing',
@@ -2090,8 +2090,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':3,'metal tools':3},
 		effects:[
-			{type:'provide',what:{'housing':1000000000}},
-			{type:'waste',chance:0.000000001/1000000000000000000000}
+			{type:'provide',what:{'housing':1000}},
+			{type:'waste',chance:0.00000000000000000000000000000000000000001/100000000000000000000000000000000000000}
 		],
 		req:{'construction':true},
 		category:'housing',
@@ -2105,9 +2105,9 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'knapped tools':2},
 		effects:[
-			{type:'provide',what:{'added food storage':400000000000}},
-			{type:'provide',what:{'added material storage':40000000000}},
-			{type:'waste',chance:0.000000008/1000000000000000}
+			{type:'provide',what:{'added food storage':400000}},
+			{type:'provide',what:{'added material storage':400000}},
+			{type:'waste',chance:0.00000000000000000000000000008/10000000000000000000000000000000000000000000000}
 		],
 		req:{'stockpiling':true},
 		category:'storage',
@@ -2120,8 +2120,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'added material storage':10000000000000}},
-			{type:'waste',chance:0.0000000000000001/10000000000000000000000000000000000}
+			{type:'provide',what:{'added material storage':1000000}},
+			{type:'waste',chance:0.00000000000000000000000000000001/100000000000000000000000000}
 		],
 		req:{'stockpiling':true,'building':true},
 		category:'storage',
@@ -2136,7 +2136,7 @@ func:function()
 		//require:{'worker':3,'stone tools':3},
 		effects:[
 			{type:'provide',what:{'added material storage':4000000000}},
-			{type:'waste',chance:0.0000000000000000000000000001/100000000000000000}
+			{type:'waste',chance:0.0000000000000000000000000000000000000001/100000000000000000000000000000}
 		],
 		req:{'stockpiling':true,'construction':true},
 		category:'storage',
@@ -2149,8 +2149,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'added food storage':100000000000}},
-			{type:'waste',chance:0.0000000000000001/100000000000000000000000000}
+			{type:'provide',what:{'added food storage':1000000000000000}},
+			{type:'waste',chance:0.00000000000001/100000000000000000}
 		],
 		req:{'stockpiling':true,'pottery':true},
 		category:'storage',
@@ -2164,8 +2164,8 @@ func:function()
 		staff:{'worker':1},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'added food storage':40000000000}},
-			{type:'waste',chance:0.00000000001/10000000000000000000000}
+			{type:'provide',what:{'added food storage':400000000000000}},
+			{type:'waste',chance:0.0000000000000001/10000000000000000000000000000000}
 		],
 		req:{'stockpiling':true,'carpentry':true},
 		category:'storage',
@@ -2203,7 +2203,7 @@ func:function()
 				}
 			},mode:'undertaker'}
 		],
-		limitPer:{'land':1},
+		limitPer:{'land':100},
 		req:{'city planning':true},
 		category:'civil',
 	});
@@ -2446,7 +2446,7 @@ func:function()
 		icon:[0,1],
 		startWith:true,
 		effects:[
-			{type:'provide res',what:{'authority':5000}},
+			{type:'provide res',what:{'authority':5}},
 			{type:'show res',what:['influence']},
 			{type:'show context',what:['gather']},
 		],
@@ -2457,7 +2457,7 @@ func:function()
 		icon:[1,1],
 		startWith:true,
 		effects:[
-			{type:'provide res',what:{'wisdom':50000}},
+			{type:'provide res',what:{'wisdom':50}},
 			{type:'show res',what:['insight']},
 		],
 	});
@@ -2468,7 +2468,7 @@ func:function()
 		cost:{'insight':10},
 		req:{'speech':true},
 		effects:[
-			{type:'provide res',what:{'inspiration':3000,'wisdom':3000}},
+			{type:'provide res',what:{'inspiration':30,'wisdom':30}},
 		],
 		chance:3,
 	});
@@ -2480,7 +2480,7 @@ func:function()
 		cost:{'insight':10},
 		req:{'language':true},
 		effects:[
-			{type:'provide res',what:{'inspiration':20000,'wisdom':20000}},
+			{type:'provide res',what:{'inspiration':20,'wisdom':20}},
 		],
 	});
 	
@@ -3297,19 +3297,19 @@ func:function()
 			{type:['oak','birch'],chance:1,min:0.1,max:0.2},
 			{type:['oak','birch'],chance:0.5,min:0.1,max:0.4},
 			{type:'berry bush',chance:0.9},
-			{type:'grass',amount:2},
+			{type:'grass',amount:8},
 			{type:['wild rabbits','stoats'],chance:0.9},
 			{type:['foxes'],chance:0.5,amount:0.5},
 			{type:['wolves','bears'],chance:0.2,amount:0.5},
-			{type:['deer'],chance:0.2,amount:0.2},
+			{type:['deer'],chance:0.5,amount:0.9},
 			{type:'wild bugs'},
-			{type:'freshwater fish',chance:0.8,min:0.1,max:0.5},
+			{type:'freshwater fish',chance:0.8,min:0.2,max:0.9},
 			{type:'freshwater',amount:1},
 			{type:'rocky substrate'},
 		],
 		modifiers:{'river':0.4,'volcano':0.2,},
 		image:6,
-		score:1000,
+		score:1000000000000000000000000000,
 	});
 	new G.Land({
 		name:'shrubland',
@@ -3329,7 +3329,7 @@ func:function()
 		],
 		modifiers:{'river':0.4,'volcano':0.2,},
 		image:5,
-		score:7,
+		score:7000000,
 	});
 	new G.Land({
 		name:'forest',
@@ -3351,7 +3351,7 @@ func:function()
 			{type:'rocky substrate'},
 		],
 		image:7,
-		score:8,
+		score:80000000,
 	});
 	new G.Land({
 		name:'tundra',
