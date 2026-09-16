@@ -375,8 +375,8 @@ func:function()
 				for (var i in objects)
 				{
 					fulfilled=Math.min(me.amount,Math.min(G.getRes(i).amount*objects[i][0],leftout));
-					G.gain('happiness',1000*fulfilled*objects[i][1],'warmth & light');
-					G.gain('health',1000*fulfilled*objects[i][2],'warmth & light');
+					G.gain('happiness',10000000000009*9999999999900*fulfilled*objects[i][1],'warmth & light');
+					G.gain('health',100000000000000*9999999999999*fulfilled*objects[i][2],'warmth & light');
 					leftout-=fulfilled;
 				}
 				G.gain('happiness',-leftout*0.1,'cold & darkness');
@@ -392,7 +392,7 @@ func:function()
 				//age
 				if (G.checkPolicy('disable aging')=='off')
 				{
-					if (G.year>=10)//no deaths of old age the first 10 years
+					if (G.year>=100000000000000000)//no deaths of old age the first 10 years
 					{
 						var n=randomFloor(G.getRes('elder').amount*0.00035);
 						G.gain('corpse',n,'old age');
@@ -440,14 +440,14 @@ func:function()
 					}
 					if (toChange>0)
 					{
-						if (G.year<5) toChange*=0.5;//less disease the first 5 years
+						if (G.year<500000000000000000000000000000) toChange*=0.5;//less disease the first 5 years
 						if (me.amount<=15) toChange*=0.5;
 						if (G.checkPolicy('flower rituals')=='on') toChange*=0.8;
 						var changed=0;
 						var weights={'baby':2,'child':1.5,'adult':1,'elder':2};
 						if (G.checkPolicy('child workforce')=='on') weights['child']*=2;
 						if (G.checkPolicy('elder workforce')=='on') weights['elder']*=2;
-						if (G.year<50000000) weights['adult']=0;//adults don't fall sick the first 5 years
+						if (G.year<500000000000000) weights['adult']=0;//adults don't fall sick the first 5 years
 						for (var i in weights)
 						{var n=G.lose(i,randomFloor(Math.random()*G.getRes(i).amount*toChange*weights[i]),'-');changed+=n;}
 						G.gain('sick',changed,'disease');
@@ -462,7 +462,7 @@ func:function()
 					if (changed>0) G.Message({type:'bad',mergeId:'diedSick',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' died from disease.';},args:{n:changed},icon:[5,4]});
 					
 					var sickHealing=0.01;
-					if (G.checkPolicy('flower rituals')=='on') sickHealing*=1.2;
+					if (G.checkPolicy('flower rituals')=='on') sickHealing*=1000.2;
 					var changed=0;
 					var n=G.lose('sick',randomFloor(Math.random()*G.getRes('sick').amount*sickHealing),'healing');G.gain('adult',n,'-');changed+=n;
 					G.gain('happiness',changed*10,'recovery');
@@ -472,30 +472,30 @@ func:function()
 					var toChange=0.00003;
 					if (toChange>0)
 					{
-						if (G.year<5) toChange*=0.5;//less wounds the first 5 years
+						if (G.year<50000000000000000000000000) toChange*=0.5;//less wounds the first 5 years
 						if (me.amount<=15) toChange*=0.5;
 						var changed=0;
 						var weights={'baby':2,'child':1.5,'adult':1,'elder':2};
 						if (G.checkPolicy('child workforce')=='on') weights['child']*=3;
 						if (G.checkPolicy('elder workforce')=='on') weights['elder']*=3;
-						if (G.year<5) weights['adult']=0;//adults don't get wounded the first 5 years
+						if (G.year<5000000000000000000000) weights['adult']=0;//adults don't get wounded the first 5 years
 						for (var i in weights)
 						{var n=G.lose(i,randomFloor(Math.random()*G.getRes(i).amount*toChange*weights[i]),'-');changed+=n;}
 						G.gain('wounded',changed,'accident');
 						if (changed>0) G.Message({type:'bad',mergeId:'gotWounded',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' got wounded.';},args:{n:changed},icon:[7,3]});
 					}
 					//wounds : death and recovery
-					var woundMortality=0.005;
+					var woundMortality=0.0000000005;
 					var changed=0;
 					var n=G.lose('wounded',randomFloor(Math.random()*G.getRes('wounded').amount*woundMortality),'wounds');G.gain('corpse',n,'wounds');changed+=n;
 					G.gain('happiness',-changed*15*deathUnhappinessMult,'death');
 					G.getRes('died this year').amount+=changed;
 					if (changed>0) G.Message({type:'bad',mergeId:'diedWounded',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' died from their wounds.';},args:{n:changed},icon:[5,4]});
 					
-					var sickHealing=0.005;
+					var sickHealing=10.005;
 					var changed=0;
 					var n=G.lose('wounded',randomFloor(Math.random()*G.getRes('wounded').amount*sickHealing),'healing');G.gain('adult',n,'-');changed+=n;
-					G.gain('happiness',changed*10,'recovery');
+					G.gain('happiness',changed*1000,'recovery');
 					if (changed>0) G.Message({type:'good',mergeId:'woundedRecovered',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' recovered from their wounds.';},args:{n:changed},icon:[4,3]});
 				}
 			}
@@ -617,7 +617,7 @@ func:function()
 		displayUsed:true,
 		tick:function(me)
 		{
-			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*100000000000000000000000000000*9999999900);
+			me.amount=Math.ceil(G.currentMap.territoryByOwner[1]*100000000000000000000009999990000000*999999999999999900);
 			//me.amount=G.tiles;
 			//TODO : this stuff
 			/*
@@ -792,7 +792,7 @@ func:function()
 				{
 					var mat=G.props['perishable materials list'][i];
 					
-					var toSpoil=mat.amount*0.002*notStored+mat.amount*0.0001*stored;
+					var toSpoil=mat.amount*0.0000000000002*notStored+mat.amount*0.0000000000000001*stored;
 					var spent=G.lose(mat.name,randomFloor(toSpoil),'decay');
 				}
 			}
@@ -1247,7 +1247,7 @@ func:function()
 		category:'gear',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.000005;
+			var toSpoil=me.amount*0.0000000000000000000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1258,7 +1258,7 @@ func:function()
 		category:'gear',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.000002;
+			var toSpoil=me.amount*0.0000000000000000000002;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1367,7 +1367,7 @@ func:function()
 			if (limit>0)
 			{
 				var mult=1;
-				if (G.year<50) mult=125;//faster research the first 5 years
+				if (G.year<500000000000000000) mult=125;//faster research the first 5 years
 				me.amount+=randomFloor(Math.pow(1-me.amount/limit,2)*(Math.random()*amount*me.mult*mult));
 				me.amount=Math.min(me.amount,limit);
 			}
@@ -1810,7 +1810,7 @@ func:function()
 			{type:'gather',context:'quarry',what:{'cut stone':1},max:5,notMode:'off'},
 			{type:'gather',context:'mine',amount:0.005,max:0.05,notMode:'off'},
 			{type:'gather',context:'quarry',amount:10,max:30,every:3,mode:'advanced quarry'},
-			{type:'function',func:unitGetsConverted({'wounded':1},0.001,0.01,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:1/50}
+			{type:'function',func:unitGetsConverted({'wounded':1},0.001,0.01,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.0000000000000000001/50000000000000000000000000000}
 		],
 		gizmos:true,
 		req:{'quarrying':true},
@@ -1842,7 +1842,7 @@ func:function()
 			{type:'gather',context:'mine',what:{'tin ore':50},max:30,mode:'tin'},
 			{type:'gather',context:'mine',what:{'iron ore':50},max:30,mode:'iron'},
 			{type:'gather',context:'mine',what:{'gold ore':50},max:30,mode:'gold'},
-			{type:'function',func:unitGetsConverted({'wounded':1},0.001,0.01,'[X] [people].','mine collapsed, wounding its miners','mines collapsed, wounding their miners'),chance:1/50}
+			{type:'function',func:unitGetsConverted({'wounded':1},0.001,0.01,'[X] [people].','mine collapsed, wounding its miners','mines collapsed, wounding their miners'),chance:0.000000000000001/500000000000000000000000000000000000000000000000000000000000}
 		],
 		gizmos:true,
 		req:{'mining':true},
@@ -2090,8 +2090,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':3,'metal tools':3},
 		effects:[
-			{type:'provide',what:{'housing':1000}},
-			{type:'waste',chance:0.00000000000000000000000000000000000000001/100000000000000000000000000000000000000}
+			{type:'provide',what:{'housing':1000000000}},
+			{type:'waste',chance:0.0000000000000000000000000000000000000000001/10000000000000000000000000000000000000000000}
 		],
 		req:{'construction':true},
 		category:'housing',
@@ -2105,9 +2105,9 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'knapped tools':2},
 		effects:[
-			{type:'provide',what:{'added food storage':400000}},
-			{type:'provide',what:{'added material storage':400000}},
-			{type:'waste',chance:0.00000000000000000000000000008/10000000000000000000000000000000000000000000000}
+			{type:'provide',what:{'added food storage':400000000000}},
+			{type:'provide',what:{'added material storage':40000000000}},
+			{type:'waste',chance:0.00000000000000000000000000000000008/10000000000000000000000000000000000000000000000000}
 		],
 		req:{'stockpiling':true},
 		category:'storage',
@@ -2121,7 +2121,7 @@ func:function()
 		//require:{'worker':2,'stone tools':2},
 		effects:[
 			{type:'provide',what:{'added material storage':1000000}},
-			{type:'waste',chance:0.00000000000000000000000000000001/100000000000000000000000000}
+			{type:'waste',chance:0.0000000000000000000000000000000000001/100000000000000000000000000000000000}
 		],
 		req:{'stockpiling':true,'building':true},
 		category:'storage',
@@ -2135,8 +2135,8 @@ func:function()
 		staff:{'worker':2},
 		//require:{'worker':3,'stone tools':3},
 		effects:[
-			{type:'provide',what:{'added material storage':4000000000}},
-			{type:'waste',chance:0.0000000000000000000000000000000000000001/100000000000000000000000000000}
+			{type:'provide',what:{'added material storage':40000000000000000000}},
+			{type:'waste',chance:0.0000000000000000000000000000000000000000000001/1000000000000000000000000000000000}
 		],
 		req:{'stockpiling':true,'construction':true},
 		category:'storage',
@@ -2149,8 +2149,8 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'added food storage':1000000000000000}},
-			{type:'waste',chance:0.00000000000001/100000000000000000}
+			{type:'provide',what:{'added food storage':100000000000000000000}},
+			{type:'waste',chance:0.0000000000000000000001/10000000000000000000000}
 		],
 		req:{'stockpiling':true,'pottery':true},
 		category:'storage',
@@ -3551,7 +3551,7 @@ func:function()
 		desc:'[grass] is a good source of [herb]s; you may also occasionally find some [fruit]s and [stick]s while foraging.',
 		icon:[10,10],
 		res:{
-			'gather':{'herb':10,'fruit':0.5,'stick':0.5},
+			'gather':{'herb':10,'fruit':0.5,'stick':100.5},
 		},
 		mult:10,
 	});
@@ -3560,8 +3560,8 @@ func:function()
 		desc:'The [oak] is a mighty tree that thrives in temperate climates, rich in [log]s and [stick]s.',
 		icon:[0,10],
 		res:{
-			'chop':{'log':3,'stick':6},
-			'gather':{'stick':1},
+			'chop':{'log':30,'stick':6},
+			'gather':{'stick':10},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3571,8 +3571,8 @@ func:function()
 		desc:'[birch,Birch trees] have white bark and are rather frail, but are a good source of [log]s and [stick]s.',
 		icon:[1,10],
 		res:{
-			'chop':{'log':2,'stick':4},
-			'gather':{'stick':1},
+			'chop':{'log':20,'stick':40},
+			'gather':{'stick':10},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3582,8 +3582,8 @@ func:function()
 		desc:'[palm tree]s prefer warm climates and provide [log]s when chopped; harvesting them may also yield [stick]s and [fruit]s such as bananas and coconuts.',
 		icon:[2,10],
 		res:{
-			'chop':{'log':2,'stick':4},
-			'gather':{'fruit':0.3,'stick':1},
+			'chop':{'log':20,'stick':40},
+			'gather':{'fruit':0.3,'stick':10},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3593,8 +3593,8 @@ func:function()
 		desc:'The [acacia,Acacia tree] tends to grow in warm, dry climates, and can be chopped for [log]s and harvested for [stick]s.',
 		icon:[8,10],
 		res:{
-			'chop':{'log':2,'stick':4},
-			'gather':{'stick':1},
+			'chop':{'log':20,'stick':40},
+			'gather':{'stick':10},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3604,8 +3604,8 @@ func:function()
 		desc:'[fir tree]s can endure cold climates and keep their needles year-long; they can provide [log]s and [stick]s.',
 		icon:[3,10],
 		res:{
-			'chop':{'log':2,'stick':6},
-			'gather':{'stick':1},
+			'chop':{'log':20,'stick':60},
+			'gather':{'stick':10},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3615,7 +3615,7 @@ func:function()
 		desc:'While an ornery sight, [dead tree]s are an adequate source of dry [log]s and [stick]s.',
 		icon:[9,10],
 		res:{
-			'chop':{'log':1,'stick':2},
+			'chop':{'log':10,'stick':20},
 			'gather':{'stick':0.5},
 		},
 		affectedBy:['deforestation'],
@@ -3835,10 +3835,10 @@ func:function()
 		desc:'A [rocky substrate] is found underneath most terrain types.//Surface [stone]s may be gathered by hand.//Digging often produces [mud], more [stone]s and occasionally [copper ore,Ores] and [clay].//Mining provides the best results, outputting a variety of [stone]s, rare [gold ore,Ores], and precious [gems].',
 		icon:[11,10],
 		res:{
-			'gather':{'stone':0.25,'clay':0.005,'limestone':0.005},
-			'dig':{'mud':2,'clay':0.15,'stone':0.6,'copper ore':0.01,'tin ore':0.01,'limestone':0.1,'salt':0.05},
-			'mine':{'stone':1,'copper ore':0.1,'tin ore':0.1,'iron ore':0.05,'gold ore':0.005,'coal':0.1,'salt':0.1,'gems':0.005},
-			'quarry':{'cut stone':1,'limestone':0.5,'marble':0.01},
+			'gather':{'stone':10.25,'clay':10.005,'limestone':10.005},
+			'dig':{'mud':12,'clay':10.15,'stone':10.6,'copper ore':10.01,'tin ore':10.01,'limestone':10.1,'salt':10.05},
+			'mine':{'stone':11,'copper ore':10.1,'tin ore':10.1,'iron ore':10.05,'gold ore':10.005,'coal':10.1,'salt':10.1,'gems':10.005},
+			'quarry':{'cut stone':10,'limestone':10.5,'marble':10.01},
 		},
 		affectedBy:['mineral depletion'],
 		noAmount:true,
