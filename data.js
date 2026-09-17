@@ -294,9 +294,9 @@ func:function()
 							G.gain('happiness',-lacking*5,'no water');
 							//die off
 							var toDie=(lacking/5)*0.05;
-							if (G.year<1) toDie/=5;//less deaths in the first year
+							if (G.year<100000000000) toDie/=500000;//less deaths in the first year
 							var died=0;
-							var weights={'baby':0.1,'child':0.2,'adult':0.5,'elder':1,'sick':0.3,'wounded':0.3};//the elderly are the first to starve off
+							var weights={'baby':0.01,'child':0.02,'adult':0.05,'elder':0.1,'sick':0.03,'wounded':0.03};//the elderly are the first to starve off
 							var sum=0;for (var i in weights){sum+=weights[i];}for (var i in weights){weights[i]/=sum;}//normalize
 							for (var i in weights){var ratio=(G.getRes(i).amount/me.amount);weights[i]=ratio+(1-ratio)*weights[i];}
 							for (var i in weights)
@@ -337,9 +337,9 @@ func:function()
 							G.gain('happiness',-lacking*5,'no food');
 							//die off
 							var toDie=(lacking/5)*0.05;
-							if (G.year<1) toDie/=5;//less deaths in the first year
+							if (G.year<100000) toDie/=50000000;//less deaths in the first year
 							var died=0;
-							var weights={'baby':0.1,'child':0.2,'adult':0.5,'elder':1,'sick':0.3,'wounded':0.3};//the elderly are the first to starve off
+							var weights={'baby':0.01,'child':0.02,'adult':0.05,'elder':0.1,'sick':0.03,'wounded':0.03};//the elderly are the first to starve off
 							var sum=0;for (var i in weights){sum+=weights[i];}for (var i in weights){weights[i]/=sum;}//normalize
 							for (var i in weights){var ratio=(G.getRes(i).amount/me.amount);weights[i]=ratio+(1-ratio)*weights[i];}
 							for (var i in weights)
@@ -416,9 +416,9 @@ func:function()
 					{
 						var born=0;
 						var birthRate=1;
-						if (me.amount<100) birthRate*=3;//more births if low pop
-						if (me.amount<10) birthRate*=3;//even more births if very low pop
-						if (G.checkPolicy('fertility rituals')=='on') birthRate*=1.2;
+						if (me.amount<100) birthRate*=6;//more births if low pop
+						if (me.amount<10) birthRate*=6;//even more births if very low pop
+						if (G.checkPolicy('fertility rituals')=='on') birthRate*=3;
 						if (G.checkPolicy('population control')=='forbidden') birthRate*=0;
 						else if (G.checkPolicy('population control')=='limited') birthRate*=0.5;
 						birthRate*=productionMult;
@@ -1520,7 +1520,7 @@ func:function()
 		effects:[
 			{type:'gather',context:'gather',amount:2,max:4},//,multMax:{'leather pouches':1.1}//TODO
 			//{type:'gather',context:'gather',what:{'water':1,'muddy water':1},amount:1,max:3,req:{'gathering focus':'water'}},
-			{type:'gather',context:'gather',what:{'water':1,'muddy water':1},amount:1,max:3},
+			{type:'gather',context:'gather',what:{'water':1000,'muddy water':100000},amount:1,max:3},
 			{type:'gather',context:'gather',what:{'herb':0.5,'fruit':0.5},amount:1,max:1,req:{'plant lore':true}},
 			{type:'addFree',what:{'worker':0.1},req:{'scavenging':true}},
 			{type:'mult',value:1.2,req:{'harvest rituals':'on'}}
@@ -1641,8 +1641,8 @@ func:function()
 			{type:'convert',from:{'herb':30},into:{'primitive clothes':1},every:20,mode:'sew grass clothing'},
 			{type:'convert',from:{'leather':2},into:{'basic clothes':1},every:8,mode:'weave leather clothing'},
 			{type:'convert',from:{'herb':50},into:{'basic clothes':1},every:20,mode:'weave fiber clothing'},
-			{type:'convert',from:{'hide':1,'water':5,'salt':1,'log':0.1},into:{'leather':1},every:15,mode:'make leather'},
-			{type:'convert',from:{'hide':1,'muddy water':5,'herb':10},into:{'leather':1},every:30,mode:'cheap make leather'},
+			{type:'convert',from:{'hide':1,'water':1,'salt':1,'log':0.1},into:{'leather':3},every:15,mode:'make leather'},
+			{type:'convert',from:{'hide':1,'muddy water':1,'herb':10},into:{'leather':3},every:30,mode:'cheap make leather'},
 		],
 		req:{'sewing':true},
 		category:'crafting',
@@ -1711,11 +1711,11 @@ func:function()
 			'cure':{name:'Cure & smoke',icon:[11,6,12,6],desc:'Turn 1 [meat] or [seafood] into 2 [cured meat] or [cured seafood] using [salt] in the embers of [fire pit]s',req:{'curing':true}},
 		},
 		effects:[
-			{type:'convert',from:{'stick':20},into:{'fire pit':1},every:5,mode:'stick fires'},
-			{type:'convert',from:{'meat':1,'fire pit':0.01},into:{'cooked meat':1},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'seafood':1,'fire pit':0.01},into:{'cooked seafood':1},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'meat':1,'salt':1,'fire pit':0.01},into:{'cured meat':2},every:1,repeat:10,mode:'cure'},
-			{type:'convert',from:{'seafood':1,'salt':1,'fire pit':0.01},into:{'cured seafood':2},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'stick':20},into:{'fire pit':5},every:5,mode:'stick fires'},
+			{type:'convert',from:{'meat':1,'fire pit':0.01},into:{'cooked meat':10},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'seafood':1,'fire pit':0.01},into:{'cooked seafood':10},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'meat':1,'salt':1,'fire pit':0.01},into:{'cured meat':20},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'seafood':1,'salt':1,'fire pit':0.01},into:{'cured seafood':20},every:1,repeat:10,mode:'cure'},
 		],
 		req:{'fire-making':true},
 		category:'crafting',
@@ -1736,8 +1736,8 @@ func:function()
 			'mud pots':{name:'Craft pots out of mud',icon:[0,7,13,5],desc:'Craft [pot]s from 10 [mud] each; requires [fire pit]s.'},
 		},
 		effects:[
-			{type:'convert',from:{'clay':3,'fire pit':0.01},into:{'pot':1},every:3,repeat:2,mode:'clay pots'},
-			{type:'convert',from:{'mud':10,'fire pit':0.01},into:{'pot':1},every:6,mode:'mud pots'}
+			{type:'convert',from:{'clay':3,'fire pit':0.01},into:{'pot':10},every:3,repeat:2,mode:'clay pots'},
+			{type:'convert',from:{'mud':10,'fire pit':0.01},into:{'pot':10},every:6,mode:'mud pots'}
 		],
 		req:{'pottery':true},
 		category:'crafting',
@@ -1755,7 +1755,7 @@ func:function()
 			'bricks':{name:'Fire bricks',icon:[3,8],desc:'Produce 10 [brick]s out of 1 [clay].',use:{'worker':1,'stone tools':1},req:{}},
 		},
 		effects:[
-			{type:'convert',from:{'clay':1},into:{'brick':10},every:5,mode:'bricks'},
+			{type:'convert',from:{'clay':1},into:{'brick':1000},every:5,mode:'bricks'},
 		],
 		gizmos:true,
 		req:{'masonry':true},
@@ -1771,7 +1771,7 @@ func:function()
 		//require:{'worker':2,'stone tools':2},
 		//upkeep:{'coin':0.2},
 		effects:[
-			{type:'gather',what:{'water':20}},
+			{type:'gather',what:{'water':2000000}},
 		],
 		category:'production',
 		req:{'well-digging':true},
@@ -1787,8 +1787,8 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.1},
 		effects:[
-			{type:'gather',context:'dig',amount:1,max:1},
-			{type:'gather',context:'dig',what:{'clay':5},max:1,req:{'pottery':true}}
+			{type:'gather',context:'dig',amount:5,max:5},
+			{type:'gather',context:'dig',what:{'clay':50},max:10,req:{'pottery':true}}
 		],
 		req:{'digging':true},
 		category:'production',
@@ -1806,11 +1806,11 @@ func:function()
 			'advanced quarry':{name:'Advanced quarry stone',icon:[8,12,0,8],desc:'Produce [cut stone] and other minerals at a superior rate with metal tools.',use:{'worker':3,'metal tools':3}},
 		},
 		effects:[
-			{type:'gather',context:'quarry',amount:5,max:10,every:3,mode:'quarry'},
+			{type:'gather',context:'quarry',amount:50,max:100,every:3,mode:'quarry'},
 			{type:'gather',context:'quarry',what:{'cut stone':1},max:5,notMode:'off'},
-			{type:'gather',context:'mine',amount:0.005,max:0.05,notMode:'off'},
-			{type:'gather',context:'quarry',amount:10,max:30,every:3,mode:'advanced quarry'},
-			{type:'function',func:unitGetsConverted({'wounded':1},0.001,0.01,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.0000000000000000001/50000000000000000000000000000}
+			{type:'gather',context:'mine',amount:0.05,max:0.5,notMode:'off'},
+			{type:'gather',context:'quarry',amount:100,max:300,every:3,mode:'advanced quarry'},
+			{type:'function',func:unitGetsConverted({'wounded':1},0.000001,0.00001,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.000000000000000000000001/50000000000000000000000000000000000}
 		],
 		gizmos:true,
 		req:{'quarrying':true},
@@ -1834,15 +1834,15 @@ func:function()
 			'gold':{name:'Gold',icon:[11,8],desc:'Mine for [gold ore] with x5 efficiency.',req:{'prospecting':true},use:{'worker':3,'metal tools':3}},
 		},
 		effects:[
-			{type:'gather',context:'mine',amount:10,max:30,mode:'any'},
-			{type:'gather',context:'mine',what:{'stone':10},max:30,notMode:'off'},
-			{type:'gather',context:'mine',what:{'coal':50},max:30,mode:'coal'},
-			{type:'gather',context:'mine',what:{'salt':50},max:30,mode:'salt'},
-			{type:'gather',context:'mine',what:{'copper ore':50},max:30,mode:'copper'},
-			{type:'gather',context:'mine',what:{'tin ore':50},max:30,mode:'tin'},
-			{type:'gather',context:'mine',what:{'iron ore':50},max:30,mode:'iron'},
-			{type:'gather',context:'mine',what:{'gold ore':50},max:30,mode:'gold'},
-			{type:'function',func:unitGetsConverted({'wounded':1},0.001,0.01,'[X] [people].','mine collapsed, wounding its miners','mines collapsed, wounding their miners'),chance:0.000000000000001/500000000000000000000000000000000000000000000000000000000000}
+			{type:'gather',context:'mine',amount:100000,max:3000,mode:'any'},
+			{type:'gather',context:'mine',what:{'stone':100000},max:3000,notMode:'off'},
+			{type:'gather',context:'mine',what:{'coal':500000},max:3000,mode:'coal'},
+			{type:'gather',context:'mine',what:{'salt':500000},max:3000,mode:'salt'},
+			{type:'gather',context:'mine',what:{'copper ore':500000},max:3000,mode:'copper'},
+			{type:'gather',context:'mine',what:{'tin ore':500000},max:3000,mode:'tin'},
+			{type:'gather',context:'mine',what:{'iron ore':500000},max:3000,mode:'iron'},
+			{type:'gather',context:'mine',what:{'gold ore':500000},max:3000,mode:'gold'},
+			{type:'function',func:unitGetsConverted({'wounded':1},0.000000000000001,0.0000000001,'[X] [people].','mine collapsed, wounding its miners','mines collapsed, wounding their miners'),chance:0.0000000000000000000001/50000000000000000000000000000000000000000000000000000000000000000000000}
 		],
 		gizmos:true,
 		req:{'mining':true},
@@ -1871,7 +1871,7 @@ func:function()
 			{type:'convert',from:{'gold ore':5},into:{'precious metal ingot':1},repeat:1,mode:'gold'},
 			{type:'convert',from:{'tin ore':2,'copper ore':8},into:{'hard metal ingot':1},repeat:3,mode:'bronze'},
 			{type:'convert',from:{'iron ore':19,'coal':1},into:{'strong metal ingot':1},repeat:1,mode:'steel'},
-			{type:'waste',chance:0.0000000000000001/100000000000000000000000},
+			{type:'waste',chance:0.00000000000000000000000001/1000000000000000000000000000000000000000000000},
 		],
 		gizmos:true,
 		req:{'smelting':true},
@@ -1894,7 +1894,7 @@ func:function()
 			{type:'convert',from:{'soft metal ingot':2},into:{'metal tools':1},repeat:3,mode:'metal tools'},
 			{type:'convert',from:{'hard metal ingot':1},into:{'metal tools':3},repeat:3,mode:'hard metal tools'},
 			{type:'convert',from:{'precious metal ingot':10},into:{'gold block':1},mode:'gold blocks'},
-			{type:'waste',chance:0.0000000000000000001/100000000000000000000000},
+			{type:'waste',chance:0.00000000000000000000000000001/10000000000000000000000000000000},
 			//TODO : better metal tools, weapons etc
 		],
 		gizmos:true,
@@ -1959,8 +1959,8 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.2},
 		effects:[
-			{type:'convert',from:{'sick':1,'herb':2.5},into:{'adult':1},chance:1/2,every:3},
-			{type:'convert',from:{'wounded':1,'herb':2.5},into:{'adult':1},chance:1/5,every:10},
+			{type:'convert',from:{'sick':1,'herb':0.5},into:{'adult':1},chance:2/2,every:3},
+			{type:'convert',from:{'wounded':1,'herb':0.5},into:{'adult':1},chance:5/5,every:10},
 		],
 		req:{'healing':true},
 		category:'spiritual',
@@ -3551,7 +3551,7 @@ func:function()
 		desc:'[grass] is a good source of [herb]s; you may also occasionally find some [fruit]s and [stick]s while foraging.',
 		icon:[10,10],
 		res:{
-			'gather':{'herb':10,'fruit':0.5,'stick':100.5},
+			'gather':{'herb':10,'fruit':0.5,'stick':100000.5},
 		},
 		mult:10,
 	});
@@ -3560,8 +3560,8 @@ func:function()
 		desc:'The [oak] is a mighty tree that thrives in temperate climates, rich in [log]s and [stick]s.',
 		icon:[0,10],
 		res:{
-			'chop':{'log':30,'stick':6},
-			'gather':{'stick':10},
+			'chop':{'log':3000,'stick':6000},
+			'gather':{'stick':10000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3571,8 +3571,8 @@ func:function()
 		desc:'[birch,Birch trees] have white bark and are rather frail, but are a good source of [log]s and [stick]s.',
 		icon:[1,10],
 		res:{
-			'chop':{'log':20,'stick':40},
-			'gather':{'stick':10},
+			'chop':{'log':10000,'stick':10000},
+			'gather':{'stick':10000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3582,8 +3582,8 @@ func:function()
 		desc:'[palm tree]s prefer warm climates and provide [log]s when chopped; harvesting them may also yield [stick]s and [fruit]s such as bananas and coconuts.',
 		icon:[2,10],
 		res:{
-			'chop':{'log':20,'stick':40},
-			'gather':{'fruit':0.3,'stick':10},
+			'chop':{'log':10000,'stick':10000},
+			'gather':{'fruit':0.3,'stick':10000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3593,8 +3593,8 @@ func:function()
 		desc:'The [acacia,Acacia tree] tends to grow in warm, dry climates, and can be chopped for [log]s and harvested for [stick]s.',
 		icon:[8,10],
 		res:{
-			'chop':{'log':20,'stick':40},
-			'gather':{'stick':10},
+			'chop':{'log':10000,'stick':10000},
+			'gather':{'stick':10000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3604,8 +3604,8 @@ func:function()
 		desc:'[fir tree]s can endure cold climates and keep their needles year-long; they can provide [log]s and [stick]s.',
 		icon:[3,10],
 		res:{
-			'chop':{'log':20,'stick':60},
-			'gather':{'stick':10},
+			'chop':{'log':10000,'stick':10000},
+			'gather':{'stick':10000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3615,8 +3615,8 @@ func:function()
 		desc:'While an ornery sight, [dead tree]s are an adequate source of dry [log]s and [stick]s.',
 		icon:[9,10],
 		res:{
-			'chop':{'log':10,'stick':20},
-			'gather':{'stick':0.5},
+			'chop':{'log':10000,'stick':10000},
+			'gather':{'stick':10000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3626,7 +3626,7 @@ func:function()
 		desc:'[berry bush,Berry bushes] can be foraged for [fruit]s, [stick]s and sometimes [herb]s.',
 		icon:[4,10],
 		res:{
-			'gather':{'fruit':3,'stick':0.5,'herb':0.25},
+			'gather':{'fruit':3,'stick':10000,'herb':10000.25},
 		},
 		affectedBy:['scarce forageables'],
 		mult:10,
@@ -3636,7 +3636,7 @@ func:function()
 		desc:'[forest mushrooms] grow in the penumbra of the underbrush, and often yield all sorts of interesting [herb]s.',
 		icon:[5,10],
 		res:{
-			'gather':{'herb':4},
+			'gather':{'herb':400},
 		},
 		affectedBy:['scarce forageables'],
 		mult:10,
@@ -3646,7 +3646,7 @@ func:function()
 		desc:'Hardy cactii that grow in the desert. While tricky to harvest, [succulents] can provide [herb]s and [fruit]s.',
 		icon:[6,10],
 		res:{
-			'gather':{'fruit':1,'herb':3},
+			'gather':{'fruit':100,'herb':300},
 		},
 		affectedBy:['scarce forageables'],
 		mult:10,
@@ -3656,7 +3656,7 @@ func:function()
 		desc:'[jungle fruits] come in all shapes, colors and sizes, and will yield [fruit]s and [herb]s to those who forage them.',
 		icon:[7,10],
 		res:{
-			'gather':{'fruit':2,'herb':1},
+			'gather':{'fruit':200,'herb':100},
 		},
 		affectedBy:['scarce forageables'],
 		mult:10,
@@ -3667,8 +3667,8 @@ func:function()
 		desc:'[wild rabbits] are quick and hard to catch, and yield a little [meat], [bone]s and [hide]s.//Carcasses can sometimes be gathered for [spoiled food].',
 		icon:[0,11],
 		res:{
-			'gather':{'spoiled food':0.5},
-			'hunt':{'meat':2,'bone':0.2,'hide':0.2},
+			'gather':{'spoiled food':5},
+			'hunt':{'meat':2,'bone':20,'hide':200},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3849,8 +3849,8 @@ func:function()
 		desc:'A [snow cover] is often available year-long in cold environments, and is a good source of [water]; it may also conceal [ice], which must be dug out.',
 		icon:[13,10],
 		res:{
-			'gather':{'water':4,'muddy water':8},
-			'dig':{'ice':0.2},
+			'gather':{'water':400000,'muddy water':80000000},
+			'dig':{'ice':12},
 		},
 		mult:5,
 	});
@@ -3870,7 +3870,7 @@ func:function()
 		desc:'[saltwater] cannot be collected for [water], but may produce [salt] deposits.',
 		icon:[14,10],
 		res:{
-			'gather':{'salt':0.05},
+			'gather':{'salt':50},
 		},
 		noAmount:true,
 		mult:5,
@@ -3880,7 +3880,7 @@ func:function()
 		desc:'[freshwater], whether found in streams or from rainwater, can be collected for [water] and [muddy water].',
 		icon:[15,10],
 		res:{
-			'gather':{'water':8,'muddy water':8},
+			'gather':{'water':8000,'muddy water':8000000},
 		},
 		mult:5,
 	});
