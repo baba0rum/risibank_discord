@@ -870,7 +870,7 @@ func:function()
 		desc:'[spoiled food] is eaten when no other [food] is available, in a last-ditch effort to fend off starvation.//Spoiled food is terribly unhealthy and tastes just as bad. Over time, it will decay even further into inedibility.',
 		icon:[3,7],
 		visible:true,
-		turnToByContext:{'eating':{'health':00.3,'happiness':0.5}},
+		turnToByContext:{'eating':{'health':100.3,'happiness':0.5}},
 		tick:function(me,tick)
 		{
 			if (G.checkPolicy('disable spoiling')=='off')
