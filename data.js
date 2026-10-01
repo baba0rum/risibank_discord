@@ -17,7 +17,7 @@ func:function()
 	PROPS & FUNCTIONS
 	=======================================================================================*/
 	
-	G.props['fastTicksOnResearch']=150;
+	G.props['fastTicksOnResearch']=15000;
 	
 	G.funcs['new game blurb']=function()
 	{
@@ -580,7 +580,7 @@ func:function()
 			if (graves.amount<graves.used)
 			{
 				//more occupied burial spots than total burial spots? this means we've been deleting burial spot that was already containing corpses; exhume those suckers
-				var toExhume=randomFloor((graves.used-graves.amount)*0.1);
+				var toExhume=randomFloor((graves.used-graves.amount)*0.001);
 				graves.used-=toExhume;
 				G.gain('corpse',toExhume,'not enough burial spots');
 			}
@@ -671,7 +671,7 @@ func:function()
 		{
 			if (G.getRes('population').amount>0 && tick%2==0)
 			{
-				me.amount*=0.99;
+				me.amount*=1.2;
 			}
 		},
 		getDisplayAmount:function()
@@ -715,7 +715,7 @@ func:function()
 				var sickness=0.00000000000000000000000000000000000000000000000000000001;
 				sickness+=Math.pow(Math.max(0,G.getRes('population').amount-50),0.1)*0.1;//more people means more contagion
 				G.gain('health',G.getRes('population').amount*(Math.random()*sickness),'disease');//people randomly get sick
-				var recovery=1.1;
+				var recovery=10.1;
 				me.amount*=recovery;//people recover over time
 			}
 		},
@@ -746,9 +746,9 @@ func:function()
 		tick:function(me,tick)
 		{
 			var amount=0;
-			amount+=G.getRes('basket').amount*100000000000000000;
-			amount+=G.getRes('pot').amount*200000000000000000005;
-			amount+=G.getRes('ice').amount;
+			amount+=G.getRes('basket').amount*1000000000000000000000000000;
+			amount+=G.getRes('pot').amount*2000000000000000000000000000005;
+			amount+=G.getRes('ice').amount*9999999999999999;
 			amount+=G.getRes('added food storage').amount;
 			me.amount=amount;
 		},
@@ -792,7 +792,7 @@ func:function()
 				{
 					var mat=G.props['perishable materials list'][i];
 					
-					var toSpoil=mat.amount*0.0000000000002*notStored+mat.amount*0.0000000000000001*stored;
+					var toSpoil=mat.amount*0.0000000000000000000000000000000000002*notStored+mat.amount*0.0000000000000000000000000000000000000000000000001*stored;
 					var spent=G.lose(mat.name,randomFloor(toSpoil),'decay');
 				}
 			}
@@ -835,7 +835,7 @@ func:function()
 		desc:'[muddy water] tastes awful and is unhealthy, but is better than dying of thirst. Your people will default to drinking it in the absence of fresh [water].//Muddy water can be collected while gathering, from stagnant pools or old rainwater; [water] also turns into muddy water over time, if not stored properly. Additionally, muddy water itself will slowly dry out.',
 		icon:[8,6],
 		visible:true,
-		turnToByContext:{'drinking':{'health':-0.03,'happiness':-0.05}},
+		turnToByContext:{'drinking':{'health':-0.00000003,'happiness':-0.000000005}},
 		tick:function(me,tick)
 		{
 			if (G.checkPolicy('disable spoiling')=='off')
@@ -859,7 +859,7 @@ func:function()
 				var stored=Math.min(me.amount,G.getRes('food storage').amount)/me.amount;
 				var notStored=1-stored;
 				
-				var toSpoil=me.amount*0.01*notStored+me.amount*0.0005*stored;
+				var toSpoil=me.amount*0.0000000001*notStored+me.amount*0.00000000000000005*stored;
 				var spent=G.lose('food',randomFloor(toSpoil),'decay');
 				//G.gain('spoiled food',randomFloor(spent));
 			}
@@ -875,7 +875,7 @@ func:function()
 		{
 			if (G.checkPolicy('disable spoiling')=='off')
 			{
-				var toSpoil=me.amount*0.001;
+				var toSpoil=me.amount*0.000000000001;
 				var spent=G.lose('spoiled food',randomFloor(toSpoil),'decay');
 			}
 		},
@@ -967,7 +967,7 @@ func:function()
 		category:'food',
 		tick:function(me,tick)
 		{
-			var toLose=me.amount*0.003;//bugs don't like to stick around
+			var toLose=me.amount*0.000000000003;//bugs don't like to stick around
 			var spent=G.lose(me.name,randomFloor(toLose),'decay');
 		}
 	});
@@ -1247,7 +1247,7 @@ func:function()
 		category:'gear',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.0000000000000000000005;
+			var toSpoil=me.amount*0.00000000000000000000000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1258,7 +1258,7 @@ func:function()
 		category:'gear',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.0000000000000000000002;
+			var toSpoil=me.amount*0.00000000000000000000000000002;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1292,7 +1292,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.000001;
+			var toSpoil=me.amount*0.0000000000000000000000000001;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 			G.pseudoGather(G.getRes('culture'),randomFloor(spent));
 		},
@@ -1312,7 +1312,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.00000000001;
+			var toSpoil=me.amount*0.000000000000000000000000001;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 			G.gain('water',randomFloor(spent*10),'ice melting');
 		},
@@ -1325,7 +1325,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.0000005;
+			var toSpoil=me.amount*0.000000000000000000000000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1336,7 +1336,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.000000005;
+			var toSpoil=me.amount*0.0000000000000000000000005;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1349,7 +1349,7 @@ func:function()
 		category:'misc',
 		tick:function(me,tick)
 		{
-			var toSpoil=me.amount*0.00000001;
+			var toSpoil=me.amount*0.00000000000000000000000001;
 			var spent=G.lose(me.name,randomFloor(toSpoil),'decay');
 		},
 	});
@@ -1518,11 +1518,11 @@ func:function()
 		//upkeep:{'food':0.2},
 		//alternateUpkeep:{'food':'spoiled food'},
 		effects:[
-			{type:'gather',context:'gather',amount:2,max:4},//,multMax:{'leather pouches':1.1}//TODO
+			{type:'gather',context:'gather',amount:200000000000000,max:40000000000000000000000000000000000000000000000000000},//,multMax:{'leather pouches':1.1}//TODO
 			//{type:'gather',context:'gather',what:{'water':1,'muddy water':1},amount:1,max:3,req:{'gathering focus':'water'}},
-			{type:'gather',context:'gather',what:{'water':10000000000000,'muddy water':1000000000000000},amount:1,max:3},
-			{type:'gather',context:'gather',what:{'herb':15,'fruit':10.5},amount:10,max:10,req:{'plant lore':true}},
-			{type:'addFree',what:{'worker':0.1},req:{'scavenging':true}},
+			{type:'gather',context:'gather',what:{'water':10000000000000000000000000,'muddy water':10000000000000000000000000000000},amount:100000,max:300000000000000000000000000000000000000000000000000000000000000000},
+			{type:'gather',context:'gather',what:{'herb':1000005,'fruit':1000000.5},amount:10000000000,max:100000000000000000000000000,req:{'plant lore':true}},
+			{type:'addFree',what:{'worker':1},req:{'scavenging':true}},
 			{type:'mult',value:100.2,req:{'harvest rituals':'on'}}
 		],
 		req:{'tribalism':true},
@@ -1637,12 +1637,12 @@ func:function()
 			'cheap make leather':{name:'Make leather (cheap)',icon:[10,7],desc:'Slowly produce [leather] from [hide]s, [muddy water] and [herb]s.',use:{'stone tools':1}},
 		},
 		effects:[
-			{type:'convert',from:{'hide':0.0000003},into:{'primitive clothes':1000000000100000100000000000000000000},every:8,mode:'sew hide clothing'},
-			{type:'convert',from:{'herb':0.0000030},into:{'primitive clothes':100000000001000001000000000000},every:20,mode:'sew grass clothing'},
-			{type:'convert',from:{'leather':0.0000002},into:{'basic clothes':100000000000000100000100000000000},every:8,mode:'weave leather clothing'},
-			{type:'convert',from:{'herb':0.0000050},into:{'basic clothes':1000000000100000100000000000000},every:20,mode:'weave fiber clothing'},
-			{type:'convert',from:{'hide':0.0000001,'water':0.00000001,'salt':0.000001,'log':0.000001},into:{'leather':3000000100000100000000000},every:15,mode:'make leather'},
-			{type:'convert',from:{'hide':0.0000001,'muddy water':0.000000001,'herb':0.000000010},into:{'leather':3000010000010000000000000},every:30,mode:'cheap make leather'},
+			{type:'convert',from:{'hide':0.000000000003},into:{'primitive clothes':1000000000100000100000000000000000000},every:8,mode:'sew hide clothing'},
+			{type:'convert',from:{'herb':0.000000000030},into:{'primitive clothes':100000000001000001000000000000000},every:20,mode:'sew grass clothing'},
+			{type:'convert',from:{'leather':0.000000002},into:{'basic clothes':1000000000000001000001000000000000000000},every:8,mode:'weave leather clothing'},
+			{type:'convert',from:{'herb':0.0000000000050},into:{'basic clothes':100000000010000010000000000000000000000},every:20,mode:'weave fiber clothing'},
+			{type:'convert',from:{'hide':0.0000000000001,'water':0.00000001,'salt':0.000001,'log':0.000001},into:{'leather':300000000100000100000000000},every:15,mode:'make leather'},
+			{type:'convert',from:{'hide':0.00000000000001,'muddy water':0.000000001,'herb':0.000000010},into:{'leather':300001000000010000000000000},every:30,mode:'cheap make leather'},
 		],
 		req:{'sewing':true},
 		category:'crafting',
@@ -1662,11 +1662,11 @@ func:function()
 			'bow hunting':{name:'Bow hunting',icon:[6,9],desc:'Hunt animals with bows.',use:{'bow':1},req:{'bows':true}},
 		},
 		effects:[
-			{type:'gather',context:'hunt',amount:10,max:50,mode:'endurance hunting'},
-			{type:'gather',context:'hunt',amount:10,max:50,mode:'spear hunting'},
-			{type:'gather',context:'hunt',amount:10,max:50,mode:'bow hunting'},//TODO : consuming arrows?
+			{type:'gather',context:'hunt',amount:1000000,max:50000000000000000000,mode:'endurance hunting'},
+			{type:'gather',context:'hunt',amount:1000000,max:50000000000000000000,mode:'spear hunting'},
+			{type:'gather',context:'hunt',amount:1000000,max:50000000000000000000,mode:'bow hunting'},//TODO : consuming arrows?
 			{type:'function',func:unitGetsConverted({'wounded':0.1},0.00000000001,0.000000000000000003,'[X] [people] wounded while hunting.','hunter was','hunters were'),chance:0.000000000000000001/3000000000000000000000},
-			{type:'mult',value:1.2,req:{'harvest rituals':'on'}}
+			{type:'mult',value:1.8,req:{'harvest rituals':'on'}}
 		],
 		req:{'hunting':true},
 		category:'production',
@@ -1687,9 +1687,9 @@ func:function()
 			//TODO : nets
 		},
 		effects:[
-			{type:'gather',context:'fish',amount:10,max:50,mode:'catch by hand'},
-			{type:'gather',context:'fish',amount:10,max:50,mode:'spear fishing'},
-			{type:'gather',context:'fish',amount:10,max:50,mode:'line fishing'},
+			{type:'gather',context:'fish',amount:10000000,max:5000000000000000,mode:'catch by hand'},
+			{type:'gather',context:'fish',amount:10000000,max:5000000000000000,mode:'spear fishing'},
+			{type:'gather',context:'fish',amount:10000000,max:5000000000000000,mode:'line fishing'},
 			{type:'mult',value:12,req:{'harvest rituals':'on'}}
 		],
 		req:{'fishing':true},
@@ -1711,11 +1711,11 @@ func:function()
 			'cure':{name:'Cure & smoke',icon:[11,6,12,6],desc:'Turn 1 [meat] or [seafood] into 2 [cured meat] or [cured seafood] using [salt] in the embers of [fire pit]s',req:{'curing':true}},
 		},
 		effects:[
-			{type:'convert',from:{'stick':0.002},into:{'fire pit':50},every:5,mode:'stick fires'},
-			{type:'convert',from:{'meat':0.1,'fire pit':0.0001},into:{'cooked meat':100000100000000000},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'seafood':1,'fire pit':0.001},into:{'cooked seafood':10000100000000000},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'meat':1,'salt':1,'fire pit':0.001},into:{'cured meat':200010000000000},every:1,repeat:10,mode:'cure'},
-			{type:'convert',from:{'seafood':1,'salt':1,'fire pit':0.001},into:{'cured seafood':200100000000000},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'stick':0.00000002},into:{'fire pit':50000},every:5,mode:'stick fires'},
+			{type:'convert',from:{'meat':0.0000001,'fire pit':0.0000000001},into:{'cooked meat':100000100000000000},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'seafood':0.0000001,'fire pit':0.0000000001},into:{'cooked seafood':10000100000000000},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'meat':0.00001,'salt':0.0000001,'fire pit':0.000000001},into:{'cured meat':200010000000000},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'seafood':0.000001,'salt':0.00001,'fire pit':0.000000001},into:{'cured seafood':200100000000000},every:1,repeat:10,mode:'cure'},
 		],
 		req:{'fire-making':true},
 		category:'crafting',
@@ -1736,8 +1736,8 @@ func:function()
 			'mud pots':{name:'Craft pots out of mud',icon:[0,7,13,5],desc:'Craft [pot]s from 10 [mud] each; requires [fire pit]s.'},
 		},
 		effects:[
-			{type:'convert',from:{'clay':3,'fire pit':0.01},into:{'pot':10010000000000},every:3,repeat:2,mode:'clay pots'},
-			{type:'convert',from:{'mud':10,'fire pit':0.01},into:{'pot':100100000000000},every:6,mode:'mud pots'}
+			{type:'convert',from:{'clay':0.0000000003,'fire pit':0.00000000001},into:{'pot':10010000000000},every:3,repeat:2,mode:'clay pots'},
+			{type:'convert',from:{'mud':0.000000000010,'fire pit':0.00000000001},into:{'pot':100100000000000},every:6,mode:'mud pots'}
 		],
 		req:{'pottery':true},
 		category:'crafting',
@@ -1755,7 +1755,7 @@ func:function()
 			'bricks':{name:'Fire bricks',icon:[3,8],desc:'Produce 10 [brick]s out of 1 [clay].',use:{'worker':1,'stone tools':1},req:{}},
 		},
 		effects:[
-			{type:'convert',from:{'clay':0.00000000001},into:{'brick':100000010000010000000000000000000000},every:5,mode:'bricks'},
+			{type:'convert',from:{'clay':0.00000000000000000001},into:{'brick':100000010000010000000000000000000000},every:5,mode:'bricks'},
 		],
 		gizmos:true,
 		req:{'masonry':true},
@@ -1775,7 +1775,7 @@ func:function()
 		],
 		category:'production',
 		req:{'well-digging':true},
-		limitPer:{'land':10},
+		limitPer:{'land':10000000000000000},
 	});
 	
 	new G.Unit({
@@ -1787,8 +1787,8 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.1},
 		effects:[
-			{type:'gather',context:'dig',amount:51,max:51},
-			{type:'gather',context:'dig',what:{'clay':500110000010000010000010000011000},max:10,req:{'pottery':true}}
+			{type:'gather',context:'dig',amount:50000001,max:50000000000000000001},
+			{type:'gather',context:'dig',what:{'clay':500110000010000010000010000011000},max:100000000000000000000000000000000000000000000000000,req:{'pottery':true}}
 		],
 		req:{'digging':true},
 		category:'production',
@@ -1806,11 +1806,11 @@ func:function()
 			'advanced quarry':{name:'Advanced quarry stone',icon:[8,12,0,8],desc:'Produce [cut stone] and other minerals at a superior rate with metal tools.',use:{'worker':3,'metal tools':3}},
 		},
 		effects:[
-			{type:'gather',context:'quarry',amount:50000000,max:100000000,every:3,mode:'quarry'},
-			{type:'gather',context:'quarry',what:{'cut stone':1000000},max:5000000,notMode:'off'},
-			{type:'gather',context:'mine',amount:1000000.05,max:1000000.5,notMode:'off'},
-			{type:'gather',context:'quarry',amount:110000000,max:300000010,every:3,mode:'advanced quarry'},
-			{type:'function',func:unitGetsConverted({'wounded':0.1},0.0000000001,0.00000001,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.000000000000000000000001/50000000000000000000000000000000000}
+			{type:'gather',context:'quarry',amount:500000000000000,max:1000000000000000000000000,every:3,mode:'quarry'},
+			{type:'gather',context:'quarry',what:{'cut stone':1000000000000000},max:50000000000000000000,notMode:'off'},
+			{type:'gather',context:'mine',amount:1000000000000.05,max:10000000000000000000.5,notMode:'off'},
+			{type:'gather',context:'quarry',amount:110000000000,max:300000000010,every:3,mode:'advanced quarry'},
+			{type:'function',func:unitGetsConverted({'wounded':0.1},0.0000000000000000001,0.00000000000000000000000000001,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.000000000000000000000001/50000000000000000000000000000000000}
 		],
 		gizmos:true,
 		req:{'quarrying':true},
@@ -1834,7 +1834,7 @@ func:function()
 			'gold':{name:'Gold',icon:[11,8],desc:'Mine for [gold ore] with x5 efficiency.',req:{'prospecting':true},use:{'worker':3,'metal tools':3}},
 		},
 		effects:[
-			{type:'gather',context:'mine',amount:10000000000000000100000000,max:3000001000000000,mode:'any'},
+			{type:'gather',context:'mine',amount:10000000000000000100000000,max:3000000001000000000,mode:'any'},
 			{type:'gather',context:'mine',what:{'stone':1000000000000010000000},max:3001000000000000,notMode:'off'},
 			{type:'gather',context:'mine',what:{'coal':5000000100000000},max:30000000100000000,mode:'coal'},
 			{type:'gather',context:'mine',what:{'salt':50000000000001000000000000000000000000},max:3000000000100000100000000000,mode:'salt'},
@@ -1865,12 +1865,12 @@ func:function()
 			'steel':{name:'Steel alloying',icon:[12,9],desc:'Cast [strong metal ingot]s out of 19 [iron ore]s and 1 [coal] each.',use:{'worker':2,'metal tools':2},req:{'steel-making':true}},
 		},
 		effects:[
-			{type:'convert',from:{'copper ore':0.0005},into:{'soft metal ingot':1000000000000000000001000000000000},repeat:3,mode:'copper'},
-			{type:'convert',from:{'tin ore':0.00010},into:{'soft metal ingot':1000000000000000000000010000000000000},repeat:3,mode:'tin'},
-			{type:'convert',from:{'iron ore':0.0005},into:{'hard metal ingot':10000000000000000000001000000000000},repeat:3,mode:'iron'},
-			{type:'convert',from:{'gold ore':0.0005},into:{'precious metal ingot':100000000000000000100000000000000000},repeat:1,mode:'gold'},
-			{type:'convert',from:{'tin ore':0.0002,'copper ore':0.0008},into:{'hard metal ingot':100010000000000000000000000000000000},repeat:3,mode:'bronze'},
-			{type:'convert',from:{'iron ore':0.00019,'coal':0.0001},into:{'strong metal ingot':100000100000000000000000000000},repeat:1,mode:'steel'},
+			{type:'convert',from:{'copper ore':0.0005},into:{'soft metal ingot':1000000000000000000001000000000000000000},repeat:3,mode:'copper'},
+			{type:'convert',from:{'tin ore':0.00010},into:{'soft metal ingot':100000000000000000000001000000000000000000},repeat:3,mode:'tin'},
+			{type:'convert',from:{'iron ore':0.0005},into:{'hard metal ingot':100000000000000000000010000000000000000},repeat:3,mode:'iron'},
+			{type:'convert',from:{'gold ore':0.0005},into:{'precious metal ingot':10000000000000000010000000000000000000},repeat:1,mode:'gold'},
+			{type:'convert',from:{'tin ore':0.0002,'copper ore':0.0008},into:{'hard metal ingot':100000010000000000000000000000000000000},repeat:3,mode:'bronze'},
+			{type:'convert',from:{'iron ore':0.00019,'coal':0.0001},into:{'strong metal ingot':10000000100000000000000000000000},repeat:1,mode:'steel'},
 			{type:'waste',chance:0.000000000000000000000000000000000000000001/10000000000000000000000000000000000000000000000000000000000000000000000},
 		],
 		gizmos:true,
@@ -1891,10 +1891,10 @@ func:function()
 			'gold blocks':{name:'Forge gold blocks',icon:[14,8],desc:'Forge [gold block]s out of 10 [precious metal ingot]s each.',use:{'worker':1,'stone tools':1},req:{'gold-working':true}},
 		},
 		effects:[
-			{type:'convert',from:{'soft metal ingot':0.02},into:{'metal tools':10000000001000000000000000000000},repeat:3,mode:'metal tools'},
-			{type:'convert',from:{'hard metal ingot':0.01},into:{'metal tools':30000000000010000000000000000},repeat:3,mode:'hard metal tools'},
-			{type:'convert',from:{'precious metal ingot':1},into:{'gold block':1},mode:'gold blocks'},
-			{type:'waste',chance:0.000000000000000000000000000000000000000000001/10000000000100000000000000000000000000000000000000000000},
+			{type:'convert',from:{'soft metal ingot':0.02},into:{'metal tools':1000000000001000000000000000000000},repeat:3,mode:'metal tools'},
+			{type:'convert',from:{'hard metal ingot':0.01},into:{'metal tools':3000000000001000000000000000000000},repeat:3,mode:'hard metal tools'},
+			{type:'convert',from:{'precious metal ingot':0.001},into:{'gold block':100000000000000000000000000},mode:'gold blocks'},
+			{type:'waste',chance:0.000000000000000000000000000000000000000000001/1000000000000000100000000000000000000000000000000000000000000},
 			//TODO : better metal tools, weapons etc
 		],
 		gizmos:true,
@@ -1911,7 +1911,7 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.1},
 		effects:[
-			{type:'gather',context:'chop',amount:1,max:1}
+			{type:'gather',context:'chop',amount:10000000000000000000000000,max:100000000000000000000000000000000000000000000000}
 		],
 		req:{'woodcutting':true},
 		category:'production',
@@ -1928,7 +1928,7 @@ func:function()
 			'lumber':{name:'Cut logs into lumber',icon:[1,8],desc:'Cut [log]s into 3 [lumber] each.',use:{'worker':1,'stone tools':1},req:{}},
 		},
 		effects:[
-			{type:'convert',from:{'log':0.0000000001},into:{'lumber':300000000000010000000000000},repeat:2,mode:'lumber'},
+			{type:'convert',from:{'log':0.0000000000001},into:{'lumber':300000000000010000000000000},repeat:2,mode:'lumber'},
 			{type:'waste',chance:0.0000000000000000000000000000001/10000000000000000100000000000000000000000000000000000000000},
 		],
 		gizmos:true,
@@ -2203,7 +2203,7 @@ func:function()
 				}
 			},mode:'undertaker'}
 		],
-		limitPer:{'land':100},
+		limitPer:{'land':10000000000},
 		req:{'city planning':true},
 		category:'civil',
 	});
@@ -2335,7 +2335,7 @@ func:function()
 		icon:[4,2],
 		cost:{},
 		effects:[
-			{type:'gather',what:{'fruit':50010000010000010000000,'cooked meat':50010000010000010000000,'water':10010000010000010000000}}
+			{type:'gather',what:{'fruit':500100000100000100000000000000,'cooked meat':5001000001000000000000010000000,'water':10010000000000010000010000000}}
 		],
 		category:'debug',
 	});
@@ -2345,7 +2345,7 @@ func:function()
 		icon:[5,2],
 		cost:{},
 		effects:[
-			{type:'gather',what:{'insight':5010000010000000,'culture':5001000001000000,'faith':5010000010000000,'science':5001000001000000,'influence':5001000001000000}}
+			{type:'gather',what:{'insight':50100,'culture':50000000,'faith':501000000,'science':500000,'influence':500000}}
 		],
 		category:'debug',
 	});
@@ -3294,17 +3294,17 @@ func:function()
 		name:'prairie',
 		names:['Prairie','Grassland','Plain','Steppe','Meadow'],
 		goods:[
-			{type:['oak','birch'],chance:1100000,min:1000000.1,max:1000001000001.9},
-			{type:['oak','birch'],chance:1000000.9,min:1000000.1,max:1000001000000.6},
-			{type:'berry bush',chance:1000000.9},
-			{type:'grass',amount:8001000000},
-			{type:['wild rabbits','stoats'],chance:1000010000000.9},
-			{type:['foxes'],chance:1000000.5,amount:1000001000000.5},
-			{type:['wolves','bears'],chance:1000002.3,amount:1000001000002.9},
-			{type:['deer'],chance:1000002.5,amount:1000001000002.9},
+			{type:['oak','birch'],chance:1100000000000,min:100000000000.1,max:1000001000001.9},
+			{type:['oak','birch'],chance:1000000000000,min:100000000000.1,max:1000001000000.6},
+			{type:'berry bush',chance:10000000000000000.9},
+			{type:'grass',amount:80010000000000},
+			{type:['wild rabbits','stoats'],chance:100001000000000.9},
+			{type:['foxes'],chance:1000000000.5,amount:100000100000000000000.5},
+			{type:['wolves','bears'],chance:1000002.3,amount:1000001000000000002.9},
+			{type:['deer'],chance:1000000002.5,amount:100000000000001000002.9},
 			{type:'wild bugs'},
 			{type:'freshwater fish',chance:1000001.8,min:1000000.5,max:1000001000002.9},
-			{type:'freshwater',amount:1000001},
+			{type:'freshwater',amount:100000000000000000000001},
 			{type:'rocky substrate'},
 		],
 		modifiers:{'river':0.4,'volcano':0.2,},
@@ -3560,8 +3560,8 @@ func:function()
 		desc:'The [oak] is a mighty tree that thrives in temperate climates, rich in [log]s and [stick]s.',
 		icon:[0,10],
 		res:{
-			'chop':{'log':300000000000000000000100000000000010000000000000000,'stick':600000001000000000000000000000000000},
-			'gather':{'stick':1000000000000000000100000000000},
+			'chop':{'log':30000000000000000000010000000000000010000000000000000,'stick':60000000001000000000000000000000000000},
+			'gather':{'stick':1000000000000000000100000000000000},
 		},
 		affectedBy:['deforestation'],
 		mult:50,
@@ -3571,8 +3571,8 @@ func:function()
 		desc:'[birch,Birch trees] have white bark and are rather frail, but are a good source of [log]s and [stick]s.',
 		icon:[1,10],
 		res:{
-			'chop':{'log':1000000000000000000000000001000001000000000,'stick':1100000000000000000000000000000000},
-			'gather':{'stick':100000000000000000000000001000000000000},
+			'chop':{'log':100000000000000000000000000001000001000000000,'stick':110000000000000000000000000000000000},
+			'gather':{'stick':10000000000000000000000000001000000000000},
 		},
 		affectedBy:['deforestation'],
 		mult:50,
@@ -3582,8 +3582,8 @@ func:function()
 		desc:'[palm tree]s prefer warm climates and provide [log]s when chopped; harvesting them may also yield [stick]s and [fruit]s such as bananas and coconuts.',
 		icon:[2,10],
 		res:{
-			'chop':{'log':100000000000000000000010000000000000000000000000000,'stick':100100000100000000000000000000000000000000000000000},
-			'gather':{'fruit':300000000000000010000010000000000,'stick':1000000000000000010000010000000000000000},
+			'chop':{'log':10000000000000000000001000000000000000000000000000000,'stick':10010000010000000000000000000000000000000000000000000},
+			'gather':{'fruit':30000000000000001000000010000000000,'stick':100000000000000001000000010000000000000000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3593,8 +3593,8 @@ func:function()
 		desc:'The [acacia,Acacia tree] tends to grow in warm, dry climates, and can be chopped for [log]s and harvested for [stick]s.',
 		icon:[8,10],
 		res:{
-			'chop':{'log':10000000000000000000000001000000000000,'stick':100100000100000000000000000000000000000000},
-			'gather':{'stick':1000000000000000000000100000000000000},
+			'chop':{'log':1000000000000000000000000001000000000000,'stick':10010000000100000000000000000000000000000000},
+			'gather':{'stick':100000000000000000000010000000000000000},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3778,7 +3778,7 @@ func:function()
 		desc:'[wild bugs,Bugs] are ubiquitious and easy to capture.',
 		icon:[8,11],
 		res:{
-			'gather':{'bugs':2000000001000001000001000000000000000},
+			'gather':{'bugs':2000000001000001000001000000000000000000},
 		},
 		//affectedBy:['over hunting'],
 		mult:5,
@@ -3788,8 +3788,8 @@ func:function()
 		desc:'Fish of every size and color.//A source of [seafood].',
 		icon:[11,11],
 		res:{
-			'gather':{'seafood':3000100000100000100000000000},
-			'fish':{'seafood':3000010000010000010000000000},
+			'gather':{'seafood':3000100000100000100000000000000000},
+			'fish':{'seafood':300001000001000001000000000000000000},
 		},
 		affectedBy:['over fishing'],
 		mult:5,
@@ -3799,8 +3799,8 @@ func:function()
 		desc:'Fish that live in streams and rivers.//A source of [seafood].',
 		icon:[12,11],
 		res:{
-			'gather':{'seafood':300010000010000010000000000},
-			'fish':{'seafood':30001000001000001000000000},
+			'gather':{'seafood':300010000010000010000000000000000000000},
+			'fish':{'seafood':300010000010000000000001000000000},
 		},
 		affectedBy:['over fishing'],
 		mult:5,
@@ -3811,8 +3811,8 @@ func:function()
 		desc:'Bivalves and other assorted shells.//A source of [seafood], fairly easy to gather.',
 		icon:[0,0],
 		res:{
-			'gather':{'seafood':1001000001000000000.5},
-			'fish':{'seafood':1000100000100000000},
+			'gather':{'seafood':1001000001000000000000000000.5},
+			'fish':{'seafood':1000100000100000000000000000},
 		},
 		affectedBy:['over fishing'],
 		mult:5,
@@ -3823,8 +3823,8 @@ func:function()
 		desc:'Skittish crustaceans that walk sideways.//A source of [seafood].',
 		icon:[0,0],
 		res:{
-			'gather':{'seafood':10001000001000001000000000.1},
-			'fish':{'seafood':20001000001000000000},
+			'gather':{'seafood':100010000000000001000001000000000.1},
+			'fish':{'seafood':20001000000000000001000000000},
 		},
 		affectedBy:['over fishing'],
 		mult:5,
@@ -3835,7 +3835,7 @@ func:function()
 		desc:'A [rocky substrate] is found underneath most terrain types.//Surface [stone]s may be gathered by hand.//Digging often produces [mud], more [stone]s and occasionally [copper ore,Ores] and [clay].//Mining provides the best results, outputting a variety of [stone]s, rare [gold ore,Ores], and precious [gems].',
 		icon:[11,10],
 		res:{
-			'gather':{'stone':1000000000000000000001000001000000000000.25,'clay':10000000000000000000001000001000000000000.005,'limestone':1000000000000000000100000100000000000000000.005},
+			'gather':{'stone':100000000000000000000100000001000000000000.25,'clay':1000000000000000000000001000001000000000000.005,'limestone':1000000000000000000100000100000000000000000.005},
 			'dig':{'mud':1000000000000000000000000010000010000000000002,'clay':1000000000000000000000001000001000000000.15,'stone':1000000000000000000000001000001000000000.6,'copper ore':1000000000000000001000001000000000000000.01,'tin ore':10000000000000000000000000010000010000000000.01,'limestone':1000000000000001000001000000000000000.1,'salt':100000000000000001000001000000000000.05},
 			'mine':{'stone':1000000000000000000000010000010000000000000000001,'copper ore':1000000000000000100000100000000000000000.1,'tin ore':100000000000000000000000100000100000000000.1,'iron ore':10000000010000010000000000000000000000000.05,'gold ore':100000000000000000000001000001000000000000.005,'coal':10000000000000000010000010000000000000.1,'salt':100000000000000001000001000000000000.1,'gems':1001000001000000000000000000000000000000.005},
 			'quarry':{'cut stone':1000000000000000001000001000000000000000000,'limestone':1000000000000000000001000001000000000000000.5,'marble':1000000000000000000000010000010000000000.01},
@@ -3849,8 +3849,8 @@ func:function()
 		desc:'A [snow cover] is often available year-long in cold environments, and is a good source of [water]; it may also conceal [ice], which must be dug out.',
 		icon:[13,10],
 		res:{
-			'gather':{'water':40000000000000000100000100000000000,'muddy water':8000010000010000000000000000000000000000},
-			'dig':{'ice':1000000000000000000010000010000000002},
+			'gather':{'water':400000000000000001000000000100000000000,'muddy water':8000010000000010000000000000000000000000000},
+			'dig':{'ice':10000000000000000000000001000000000010000000002},
 		},
 		mult:50,
 	});
@@ -3859,7 +3859,7 @@ func:function()
 		desc:'[sandy soil] is the result of a [rocky substrate] eroded by wind over long periods of time. [sand] is plentiful here.',
 		icon:[12,10],
 		res:{
-			'dig':{'sand':10000000000000000001000001000000000000000000000},
+			'dig':{'sand':100000000000000000000001000001000000000000000000000},
 		},
 		noAmount:true,
 		mult:5,
@@ -3870,7 +3870,7 @@ func:function()
 		desc:'[saltwater] cannot be collected for [water], but may produce [salt] deposits.',
 		icon:[14,10],
 		res:{
-			'gather':{'salt':500000000001000001000000000000000000000},
+			'gather':{'salt':5000000000000000001000001000000000000000000000},
 		},
 		noAmount:true,
 		mult:5,
@@ -3936,8 +3936,8 @@ func:function()
 		desc:'You have been laid to rest in the Mausoleum, an ancient stone monument the purpose of which takes root in archaic religious thought.',
 		fromUnit:'mausoleum',
 		effects:[
-			{type:'addFastTicksOnStart',amount:9000*3000},
-			{type:'addFastTicksOnResearch',amount:150*990}
+			{type:'addFastTicksOnStart',amount:90*30},
+			{type:'addFastTicksOnResearch',amount:150*90}
 		],
 	});
 	
@@ -4029,7 +4029,7 @@ func:function()
 				}
 			}
 			var total=landTiles.length+seaTiles.length;
-			if (landTiles.length/total>0.3 && landTiles.length/total<0.5) fit=true;
+			if (landTiles.length/total>0.5 && landTiles.length/total<0.8) fit=true;
 			i++;
 		}
 		
