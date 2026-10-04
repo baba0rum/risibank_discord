@@ -416,8 +416,8 @@ func:function()
 					{
 						var born=0;
 						var birthRate=1;
-						if (me.amount<100) birthRate*=1.5;//more births if low pop
-						if (me.amount<10) birthRate*=1.5;//even more births if very low pop
+						if (me.amount<100) birthRate*=1;//more births if low pop
+						if (me.amount<10) birthRate*=1;//even more births if very low pop
 						if (G.checkPolicy('fertility rituals')=='on') birthRate*=2;
 						if (G.checkPolicy('population control')=='forbidden') birthRate*=0;
 						else if (G.checkPolicy('population control')=='limited') birthRate*=0.5;
@@ -1518,10 +1518,10 @@ func:function()
 		//upkeep:{'food':0.2},
 		//alternateUpkeep:{'food':'spoiled food'},
 		effects:[
-			{type:'gather',context:'gather',amount:2,max:4},//,multMax:{'leather pouches':1.1}//TODO
+			{type:'gather',context:'gather',amount:10,max:20},//,multMax:{'leather pouches':1.1}//TODO
 			//{type:'gather',context:'gather',what:{'water':1,'muddy water':1},amount:1,max:3,req:{'gathering focus':'water'}},
-			{type:'gather',context:'gather',what:{'water':1,'muddy water':10},amount:10,max:30},
-			{type:'gather',context:'gather',what:{'herb':1,'fruit':1.5},amount:2,max:10,req:{'plant lore':true}},
+			{type:'gather',context:'gather',what:{'water':10,'muddy water':100},amount:100,max:300},
+			{type:'gather',context:'gather',what:{'herb':10,'fruit':10.5},amount:20,max:100,req:{'plant lore':true}},
 			{type:'addFree',what:{'worker':1},req:{'scavenging':true}},
 			{type:'mult',value:100.2,req:{'harvest rituals':'on'}}
 		],
@@ -1581,11 +1581,11 @@ func:function()
 			'baskets':{name:'Weave baskets',icon:[14,7],desc:'Turn [stick]s into [basket]s.',req:{'basket-weaving':true},use:{'knapped tools':1}},
 		},
 		effects:[
-			{type:'convert',from:{'stone':0.1},into:{'knapped tools':1},every:5,mode:'knap'},
-			{type:'convert',from:{'bone':0.1},into:{'knapped tools':1},every:5,mode:'knap bone'},
-			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'stone tools':1},every:8,mode:'stone tools'},
-			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'stone weapons':1},every:8,mode:'stone weapons'},
-			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'bow':1},every:10,mode:'bows'},
+			{type:'convert',from:{'stone':0.1},into:{'knapped tools':20},every:5,mode:'knap'},
+			{type:'convert',from:{'bone':0.1},into:{'knapped tools':20},every:5,mode:'knap bone'},
+			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'stone tools':20},every:8,mode:'stone tools'},
+			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'stone weapons':20},every:8,mode:'stone weapons'},
+			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'bow':5},every:10,mode:'bows'},
 			{type:'convert',from:{'stick':0.15},into:{'basket':1},every:10,mode:'baskets'},
 			{type:'mult',value:1.2,req:{'ground stone tools':true}}
 		],
@@ -1637,10 +1637,10 @@ func:function()
 			'cheap make leather':{name:'Make leather (cheap)',icon:[10,7],desc:'Slowly produce [leather] from [hide]s, [muddy water] and [herb]s.',use:{'stone tools':1}},
 		},
 		effects:[
-			{type:'convert',from:{'hide':0.1},into:{'primitive clothes':1},every:8,mode:'sew hide clothing'},
-			{type:'convert',from:{'herb':0.1},into:{'primitive clothes':1},every:20,mode:'sew grass clothing'},
-			{type:'convert',from:{'leather':0.1},into:{'basic clothes':1},every:8,mode:'weave leather clothing'},
-			{type:'convert',from:{'herb':0.1},into:{'basic clothes':1},every:20,mode:'weave fiber clothing'},
+			{type:'convert',from:{'hide':0.1},into:{'primitive clothes':2},every:8,mode:'sew hide clothing'},
+			{type:'convert',from:{'herb':0.1},into:{'primitive clothes':2},every:20,mode:'sew grass clothing'},
+			{type:'convert',from:{'leather':0.1},into:{'basic clothes':2},every:8,mode:'weave leather clothing'},
+			{type:'convert',from:{'herb':0.1},into:{'basic clothes':2},every:20,mode:'weave fiber clothing'},
 			{type:'convert',from:{'hide':0.1,'water':0.1,'salt':0.1,'log':0.1},into:{'leather':1},every:15,mode:'make leather'},
 			{type:'convert',from:{'hide':0.1,'muddy water':0.1,'herb':0.1},into:{'leather':1},every:30,mode:'cheap make leather'},
 		],
@@ -1662,9 +1662,9 @@ func:function()
 			'bow hunting':{name:'Bow hunting',icon:[6,9],desc:'Hunt animals with bows.',use:{'bow':1},req:{'bows':true}},
 		},
 		effects:[
-			{type:'gather',context:'hunt',amount:2,max:20,mode:'endurance hunting'},
-			{type:'gather',context:'hunt',amount:2,max:20,mode:'spear hunting'},
-			{type:'gather',context:'hunt',amount:2,max:20,mode:'bow hunting'},//TODO : consuming arrows?
+			{type:'gather',context:'hunt',amount:200,max:20000,mode:'endurance hunting'},
+			{type:'gather',context:'hunt',amount:200,max:20000,mode:'spear hunting'},
+			{type:'gather',context:'hunt',amount:200,max:20000,mode:'bow hunting'},//TODO : consuming arrows?
 			{type:'function',func:unitGetsConverted({'wounded':0.1},0.1,0.0003,'[X] [people] wounded while hunting.','hunter was','hunters were'),chance:0.01/30000},
 			{type:'mult',value:20,req:{'harvest rituals':'on'}}
 		],
@@ -1712,10 +1712,10 @@ func:function()
 		},
 		effects:[
 			{type:'convert',from:{'stick':0.2},into:{'fire pit':5},every:5,mode:'stick fires'},
-			{type:'convert',from:{'meat':0.1,'fire pit':0.1},into:{'cooked meat':1},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'seafood':0.1,'fire pit':0.1},into:{'cooked seafood':1},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'meat':0.1,'salt':0.1,'fire pit':0.1},into:{'cured meat':2},every:1,repeat:10,mode:'cure'},
-			{type:'convert',from:{'seafood':0.1,'salt':0.1,'fire pit':0.1},into:{'cured seafood':2},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'meat':0.1,'fire pit':0.1},into:{'cooked meat':500},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'seafood':0.1,'fire pit':0.1},into:{'cooked seafood':500},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'meat':0.1,'salt':0.1,'fire pit':0.1},into:{'cured meat':52},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'seafood':0.1,'salt':0.1,'fire pit':0.1},into:{'cured seafood':52},every:1,repeat:10,mode:'cure'},
 		],
 		req:{'fire-making':true},
 		category:'crafting',
@@ -1787,7 +1787,7 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.1},
 		effects:[
-			{type:'gather',context:'dig',amount:1,max:5},
+			{type:'gather',context:'dig',amount:1,max:50},
 			{type:'gather',context:'dig',what:{'clay':1},max:2,req:{'pottery':true}}
 		],
 		req:{'digging':true},
@@ -1810,7 +1810,7 @@ func:function()
 			{type:'gather',context:'quarry',what:{'cut stone':1},max:2,notMode:'off'},
 			{type:'gather',context:'mine',amount:1.05,max:2.5,notMode:'off'},
 			{type:'gather',context:'quarry',amount:1,max:3,every:3,mode:'advanced quarry'},
-			{type:'function',func:unitGetsConverted({'wounded':0.1},0.01,0.000001,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.000000000000000000000001/50000000000000000000000000000000000}
+			{type:'function',func:unitGetsConverted({'wounded':0.1},0.01,0.0000000000001,'[X] [people].','quarry collapsed, wounding its workers','quarries collapsed, wounding their workers'),chance:0.000000000000000000000001/50000000000000000000000000000000000}
 		],
 		gizmos:true,
 		req:{'quarrying':true},
