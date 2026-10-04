@@ -312,8 +312,8 @@ func:function()
 					var toConsume=0;
 					var consumeMult=1;
 					var happinessAdd=0;
-					if (G.has('culture of moderation')) {consumeMult*=0.85;happinessAdd-=100000.1;}
-					else if (G.has('joy of eating')) {consumeMult*=1.15;happinessAdd+=1000000.1;}
+					if (G.has('culture of moderation')) {consumeMult*=0.85;happinessAdd-=10.1;}
+					else if (G.has('joy of eating')) {consumeMult*=1.15;happinessAdd+=10.1;}
 					var weights={'baby':0.2,'child':0.5,'adult':0.1,'elder':0.1,'sick':0.1,'wounded':0.1};
 					for (var i in weights)
 					{toConsume+=G.getRes(i).amount*weights[i];}
@@ -375,8 +375,8 @@ func:function()
 				for (var i in objects)
 				{
 					fulfilled=Math.min(me.amount,Math.min(G.getRes(i).amount*objects[i][0],leftout));
-					G.gain('happiness',109*90*fulfilled*objects[i][1],'warmth & light');
-					G.gain('health',100*99*fulfilled*objects[i][2],'warmth & light');
+					G.gain('happiness',109*9*fulfilled*objects[i][1],'warmth & light');
+					G.gain('health',100*9*fulfilled*objects[i][2],'warmth & light');
 					leftout-=fulfilled;
 				}
 				G.gain('happiness',leftout*0.1,'cold & darkness');
@@ -416,9 +416,9 @@ func:function()
 					{
 						var born=0;
 						var birthRate=1;
-						if (me.amount<100) birthRate*=6;//more births if low pop
-						if (me.amount<10) birthRate*=6;//even more births if very low pop
-						if (G.checkPolicy('fertility rituals')=='on') birthRate*=3;
+						if (me.amount<100) birthRate*=1.5;//more births if low pop
+						if (me.amount<10) birthRate*=1.5;//even more births if very low pop
+						if (G.checkPolicy('fertility rituals')=='on') birthRate*=2;
 						if (G.checkPolicy('population control')=='forbidden') birthRate*=0;
 						else if (G.checkPolicy('population control')=='limited') birthRate*=0.5;
 						birthRate*=productionMult;
@@ -433,7 +433,7 @@ func:function()
 					//note : when a sick or wounded person recovers, they turn into adults; this means you could get a community of old people fall sick, then miraculously age back. life is a mystery
 					
 					//sickness
-					var toChange=0.00003;
+					var toChange=0.003;
 					if (G.getRes('health').amount<0)
 					{
 						toChange*=(1+Math.abs(G.getRes('health').amount/me.amount));
@@ -454,7 +454,7 @@ func:function()
 						if (changed>0) G.Message({type:'bad',mergeId:'fellSick',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' fell sick.';},args:{n:changed},icon:[6,3]});
 					}
 					//sickness : death and recovery
-					var sickMortality=0.00000000000000000005;
+					var sickMortality=0.005;
 					var changed=0;
 					var n=G.lose('sick',randomFloor(Math.random()*G.getRes('sick').amount*sickMortality),'disease');G.gain('corpse',n,'disease');changed+=n;
 					G.gain('happiness',-changed*15*deathUnhappinessMult,'death');
@@ -462,7 +462,7 @@ func:function()
 					if (changed>0) G.Message({type:'bad',mergeId:'diedSick',textFunc:function(args){return B(args.n)+' '+(args.n==1?'person':'people')+' died from disease.';},args:{n:changed},icon:[5,4]});
 					
 					var sickHealing=0.01;
-					if (G.checkPolicy('flower rituals')=='on') sickHealing*=100000.2;
+					if (G.checkPolicy('flower rituals')=='on') sickHealing*=1000.2;
 					var changed=0;
 					var n=G.lose('sick',randomFloor(Math.random()*G.getRes('sick').amount*sickHealing),'healing');G.gain('adult',n,'-');changed+=n;
 					G.gain('happiness',changed*10,'recovery');
@@ -472,7 +472,7 @@ func:function()
 					var toChange=0.00003;
 					if (toChange>0)
 					{
-						if (G.year<50000000000000000000000000) toChange*=0.00005;//less wounds the first 5 years
+						if (G.year<500000) toChange*=0.005;//less wounds the first 5 years
 						if (me.amount<=15) toChange*=0.5;
 						var changed=0;
 						var weights={'baby':2,'child':1.5,'adult':1,'elder':2};
@@ -1367,7 +1367,7 @@ func:function()
 			if (limit>0)
 			{
 				var mult=1;
-				if (G.year<5000000000000000000000000000000000) mult=100025;//faster research the first 5 years
+				if (G.year<5000000000000000000000000000000000) mult=15;//faster research the first 5 years
 				me.amount+=randomFloor(Math.pow(1-me.amount/limit,2)*(Math.random()*amount*me.mult*mult));
 				me.amount=Math.min(me.amount,limit);
 			}
@@ -1587,7 +1587,7 @@ func:function()
 			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'stone weapons':1},every:8,mode:'stone weapons'},
 			{type:'convert',from:{'stick':0.1,'stone':0.1},into:{'bow':1},every:10,mode:'bows'},
 			{type:'convert',from:{'stick':0.15},into:{'basket':1},every:10,mode:'baskets'},
-			{type:'mult',value:11.2,req:{'ground stone tools':true}}
+			{type:'mult',value:1.2,req:{'ground stone tools':true}}
 		],
 		req:{'stone-knapping':true},
 		category:'crafting',
@@ -1614,7 +1614,7 @@ func:function()
 			{type:'convert',from:{'stone':0.10},into:{'cut stone':1},every:15,mode:'cut stone'},
 			{type:'convert',from:{'cut stone':0.1},into:{'stone':1},every:5,mode:'smash cut stone'},
 			{type:'convert',from:{'gems':0.10},into:{'gem block':1},every:15,mode:'gem blocks'},
-			{type:'mult',value:11.2,req:{'ground stone tools':true}}
+			{type:'mult',value:1.2,req:{'ground stone tools':true}}
 		],
 		req:{'carving':true},
 		category:'crafting',
@@ -1662,11 +1662,11 @@ func:function()
 			'bow hunting':{name:'Bow hunting',icon:[6,9],desc:'Hunt animals with bows.',use:{'bow':1},req:{'bows':true}},
 		},
 		effects:[
-			{type:'gather',context:'hunt',amount:1,max:2,mode:'endurance hunting'},
-			{type:'gather',context:'hunt',amount:1,max:2,mode:'spear hunting'},
-			{type:'gather',context:'hunt',amount:1,max:2,mode:'bow hunting'},//TODO : consuming arrows?
-			{type:'function',func:unitGetsConverted({'wounded':0.1},0.1,0.000000003,'[X] [people] wounded while hunting.','hunter was','hunters were'),chance:0.000000000000000001/3000000000000000000000},
-			{type:'mult',value:1.8,req:{'harvest rituals':'on'}}
+			{type:'gather',context:'hunt',amount:2,max:20,mode:'endurance hunting'},
+			{type:'gather',context:'hunt',amount:2,max:20,mode:'spear hunting'},
+			{type:'gather',context:'hunt',amount:2,max:20,mode:'bow hunting'},//TODO : consuming arrows?
+			{type:'function',func:unitGetsConverted({'wounded':0.1},0.1,0.0003,'[X] [people] wounded while hunting.','hunter was','hunters were'),chance:0.01/30000},
+			{type:'mult',value:20,req:{'harvest rituals':'on'}}
 		],
 		req:{'hunting':true},
 		category:'production',
@@ -1687,10 +1687,10 @@ func:function()
 			//TODO : nets
 		},
 		effects:[
-			{type:'gather',context:'fish',amount:1,max:5,mode:'catch by hand'},
-			{type:'gather',context:'fish',amount:1,max:5,mode:'spear fishing'},
-			{type:'gather',context:'fish',amount:1,max:5,mode:'line fishing'},
-			{type:'mult',value:12,req:{'harvest rituals':'on'}}
+			{type:'gather',context:'fish',amount:2,max:5,mode:'catch by hand'},
+			{type:'gather',context:'fish',amount:2,max:5,mode:'spear fishing'},
+			{type:'gather',context:'fish',amount:2,max:5,mode:'line fishing'},
+			{type:'mult',value:20,req:{'harvest rituals':'on'}}
 		],
 		req:{'fishing':true},
 		category:'production',
@@ -1834,14 +1834,14 @@ func:function()
 			'gold':{name:'Gold',icon:[11,8],desc:'Mine for [gold ore] with x5 efficiency.',req:{'prospecting':true},use:{'worker':3,'metal tools':3}},
 		},
 		effects:[
-			{type:'gather',context:'mine',amount:1,max:2,mode:'any'},
-			{type:'gather',context:'mine',what:{'stone':1},max:2,notMode:'off'},
-			{type:'gather',context:'mine',what:{'coal':1},max:2,mode:'coal'},
-			{type:'gather',context:'mine',what:{'salt':1},max:2,mode:'salt'},
-			{type:'gather',context:'mine',what:{'copper ore':1},max:2,mode:'copper'},
-			{type:'gather',context:'mine',what:{'tin ore':1},max:2,mode:'tin'},
-			{type:'gather',context:'mine',what:{'iron ore':1},max:2,mode:'iron'},
-			{type:'gather',context:'mine',what:{'gold ore':1},max:2,mode:'gold'},
+			{type:'gather',context:'mine',amount:1,max:4,mode:'any'},
+			{type:'gather',context:'mine',what:{'stone':1},max:5,notMode:'off'},
+			{type:'gather',context:'mine',what:{'coal':1},max:5,mode:'coal'},
+			{type:'gather',context:'mine',what:{'salt':1},max:5,mode:'salt'},
+			{type:'gather',context:'mine',what:{'copper ore':1},max:5,mode:'copper'},
+			{type:'gather',context:'mine',what:{'tin ore':1},max:5,mode:'tin'},
+			{type:'gather',context:'mine',what:{'iron ore':1},max:5,mode:'iron'},
+			{type:'gather',context:'mine',what:{'gold ore':1},max:5,mode:'gold'},
 			{type:'function',func:unitGetsConverted({'wounded':1},0.00000001,0.0000000000001,'[X] [people].','mine collapsed, wounding its miners','mines collapsed, wounding their miners'),chance:0.0000000000000000000001/50000000000000000000000000000000000000000000000000000000000000000000000}
 		],
 		gizmos:true,
@@ -1891,9 +1891,9 @@ func:function()
 			'gold blocks':{name:'Forge gold blocks',icon:[14,8],desc:'Forge [gold block]s out of 10 [precious metal ingot]s each.',use:{'worker':1,'stone tools':1},req:{'gold-working':true}},
 		},
 		effects:[
-			{type:'convert',from:{'soft metal ingot':0.2},into:{'metal tools':1},repeat:3,mode:'metal tools'},
-			{type:'convert',from:{'hard metal ingot':0.1},into:{'metal tools':3},repeat:3,mode:'hard metal tools'},
-			{type:'convert',from:{'precious metal ingot':0.1},into:{'gold block':1},mode:'gold blocks'},
+			{type:'convert',from:{'soft metal ingot':0.2},into:{'metal tools':2},repeat:3,mode:'metal tools'},
+			{type:'convert',from:{'hard metal ingot':0.1},into:{'metal tools':6},repeat:3,mode:'hard metal tools'},
+			{type:'convert',from:{'precious metal ingot':0.1},into:{'gold block':2},mode:'gold blocks'},
 			{type:'waste',chance:0.1/10000},
 			//TODO : better metal tools, weapons etc
 		],
@@ -1925,7 +1925,7 @@ func:function()
 		//require:{'worker':2,'stone tools':2},
 		modes:{
 			'off':G.MODE_OFF,
-			'lumber':{name:'Cut logs into lumber',icon:[1,8],desc:'Cut [log]s into 3 [lumber] each.',use:{'worker':1,'stone tools':1},req:{}},
+			'lumber':{name:'Cut logs into lumber',icon:[1,8],desc:'Cut [log]s into 3 [lumber] each.',use:{'worker':1,'stone tools':3},req:{}},
 		},
 		effects:[
 			{type:'convert',from:{'log':1},into:{'lumber':10},repeat:2,mode:'lumber'},
@@ -2008,7 +2008,7 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':1,'knapped tools':1},
 		effects:[
-			{type:'provide',what:{'burial spot':100000000000000000010000000000}},
+			{type:'provide',what:{'burial spot':1000000000000000000000000000000000}},
 			//{type:'waste',chance:1/100,desired:true},
 			{type:'function',func:function(me){
 				var buried=G.getRes('burial spot').used;
@@ -2034,7 +2034,7 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':1,'knapped tools':1},
 		effects:[
-			{type:'provide',what:{'housing':30000000000000}},
+			{type:'provide',what:{'housing':300000000000000000000}},
 			{type:'waste',chance:0.0000000000000000000000001/100000000000000000000000000000}
 		],
 		req:{'sedentism':true},
@@ -2048,7 +2048,7 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':1,'knapped tools':1},
 		effects:[
-			{type:'provide',what:{'housing':3000000000}},
+			{type:'provide',what:{'housing':300000000000000000}},
 			{type:'waste',chance:0.0000000000000000000000000003/1000000000000000000000000000000000}
 		],
 		req:{'sedentism':true},
@@ -2062,7 +2062,7 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'housing':50000000000000}},
+			{type:'provide',what:{'housing':50000000000000000000000}},
 			{type:'waste',chance:0.000000000000000000000000000001/100000000000000000000000000000000}
 		],
 		req:{'building':true},
@@ -2076,7 +2076,7 @@ func:function()
 		use:{'land':0},
 		//require:{'worker':2,'stone tools':2},
 		effects:[
-			{type:'provide',what:{'housing':8000000000000}},
+			{type:'provide',what:{'housing':800000000000000000000000000}},
 			{type:'waste',chance:0.00000000000000000000000000000003/1000000000000000000000000000000000000000000000000000000000}
 		],
 		req:{'cities':true},
@@ -2203,7 +2203,7 @@ func:function()
 				}
 			},mode:'undertaker'}
 		],
-		limitPer:{'land':10000000000},
+		limitPer:{'land':10000000000000000000000000000},
 		req:{'city planning':true},
 		category:'civil',
 	});
@@ -3260,7 +3260,7 @@ func:function()
 		name:'ocean',
 		names:['Ocean'],
 		goods:[
-			{type:'saltwater fish',min:1,max:2},
+			{type:'saltwater fish',min:1,max:5},
 			{type:'saltwater'},
 		],
 		ocean:true,
@@ -3294,8 +3294,8 @@ func:function()
 		name:'prairie',
 		names:['Prairie','Grassland','Plain','Steppe','Meadow'],
 		goods:[
-			{type:['oak','birch'],chance:1,min:1.1,max:2.9},
-			{type:['oak','birch'],chance:1,min:1.1,max:2.6},
+			{type:['oak','birch'],chance:1,min:1.1,max:5.9},
+			{type:['oak','birch'],chance:1,min:1.1,max:5.6},
 			{type:'berry bush',chance:1.9},
 			{type:'grass',amount:1},
 			{type:['wild rabbits','stoats'],chance:1.9},
@@ -3303,7 +3303,7 @@ func:function()
 			{type:['wolves','bears'],chance:1.3,amount:1.9},
 			{type:['deer'],chance:1.5,amount:1.9},
 			{type:'wild bugs'},
-			{type:'freshwater fish',chance:1.8,min:1.5,max:2.9},
+			{type:'freshwater fish',chance:1.8,min:1.5,max:5.9},
 			{type:'freshwater',amount:1},
 			{type:'rocky substrate'},
 		],
@@ -3315,16 +3315,16 @@ func:function()
 		name:'shrubland',
 		names:['Shrubland','Drylands','Highlands','Heath'],
 		goods:[
-			{type:['oak','birch'],chance:1000000.5,min:1000000.2,max:1000001000001000000.4},
-			{type:'dead tree',amount:1000001000000.5},
-			{type:'berry bush',chance:1000001000000.2},
-			{type:'grass',amount:1000001000001.5},
-			{type:['wild rabbits','stoats'],chance:1000001000000.6},
-			{type:['foxes'],chance:1000000.4,amount:1000001000000.3},
-			{type:['wolves','bears'],chance:1000000.1,amount:1000001000000.2},
+			{type:['oak','birch'],chance:10.5,min:5.2,max:10.4},
+			{type:'dead tree',amount:10.5},
+			{type:'berry bush',chance:10.2},
+			{type:'grass',amount:10.5},
+			{type:['wild rabbits','stoats'],chance:10.6},
+			{type:['foxes'],chance:10.4,amount:10.3},
+			{type:['wolves','bears'],chance:10.1,amount:10.2},
 			{type:'wild bugs'},
-			{type:'freshwater fish',chance:1000000.3,min:1000000.1,max:1000001000000.3},
-			{type:'freshwater',amount:1000000.8},
+			{type:'freshwater fish',chance:10.3,min:5.1,max:10.3},
+			{type:'freshwater',amount:10.8},
 			{type:'rocky substrate'},
 		],
 		modifiers:{'river':0.4,'volcano':0.2,},
@@ -3466,7 +3466,7 @@ func:function()
 			{type:'grass'},
 			{type:'koalas',chance:0.3},
 			{type:['boars'],chance:0.2,amount:0.5},
-			{type:'wild bugs',min:1,max:2},
+			{type:'wild bugs',min:1,max:5},
 			{type:'freshwater fish',chance:0.1,min:0.1,max:0.3},
 			{type:'freshwater',amount:1},
 			{type:'rocky substrate'},
