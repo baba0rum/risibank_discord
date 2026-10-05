@@ -1,7 +1,7 @@
 G.AddData({
-name:'Default harder dataset',
+name:'Default harder dataset.2',
 author:'Orteil',
-desc:'The default harder dataset for Legacy.',
+desc:'The default harder dataset for Legacy.2.',
 engineVersion:1,
 manifest:0,
 func:function()
@@ -416,11 +416,11 @@ func:function()
 					{
 						var born=0;
 						var birthRate=1;
-						if (me.amount<100) birthRate*=1;//more births if low pop
-						if (me.amount<10) birthRate*=1;//even more births if very low pop
-						if (G.checkPolicy('fertility rituals')=='on') birthRate*=2;
+						if (me.amount<100) birthRate*=0.07;//more births if low pop
+						if (me.amount<10) birthRate*=0.07;//even more births if very low pop
+						if (G.checkPolicy('fertility rituals')=='on') birthRate*=0.1;
 						if (G.checkPolicy('population control')=='forbidden') birthRate*=0;
-						else if (G.checkPolicy('population control')=='limited') birthRate*=0.5;
+						else if (G.checkPolicy('population control')=='limited') birthRate*=0.05;
 						birthRate*=productionMult;
 						if (homeless>0 && me.amount>15) birthRate*=1;//harder to make babies if you have more than 15 people and some of them are homeless
 						var n=randomFloor(G.getRes('adult').amount*0.3*birthRate);G.gain('baby',n,'birth');G.gain('happiness',n*10,'birth');born+=n;
@@ -440,9 +440,9 @@ func:function()
 					}
 					if (toChange>0)
 					{
-						if (G.year<500000000000000000000000000000) toChange*=0.0005;//less disease the first 5 years
+						if (G.year<500000000000000000000000000000) toChange*=0.05;//less disease the first 5 years
 						if (me.amount<=15) toChange*=0.5;
-						if (G.checkPolicy('flower rituals')=='on') toChange*=0.8;
+						if (G.checkPolicy('flower rituals')=='on') toChange*=0.2;
 						var changed=0;
 						var weights={'baby':2,'child':1.5,'adult':1,'elder':2};
 						if (G.checkPolicy('child workforce')=='on') weights['child']*=2;
@@ -472,7 +472,7 @@ func:function()
 					var toChange=0.00003;
 					if (toChange>0)
 					{
-						if (G.year<500000) toChange*=0.005;//less wounds the first 5 years
+						if (G.year<500000) toChange*=0.05;//less wounds the first 5 years
 						if (me.amount<=15) toChange*=0.5;
 						var changed=0;
 						var weights={'baby':2,'child':1.5,'adult':1,'elder':2};
@@ -1712,10 +1712,10 @@ func:function()
 		},
 		effects:[
 			{type:'convert',from:{'stick':0.2},into:{'fire pit':5},every:5,mode:'stick fires'},
-			{type:'convert',from:{'meat':0.1,'fire pit':0.1},into:{'cooked meat':500},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'seafood':0.1,'fire pit':0.1},into:{'cooked seafood':500},every:1,repeat:5,mode:'cook'},
-			{type:'convert',from:{'meat':0.1,'salt':0.1,'fire pit':0.1},into:{'cured meat':52},every:1,repeat:10,mode:'cure'},
-			{type:'convert',from:{'seafood':0.1,'salt':0.1,'fire pit':0.1},into:{'cured seafood':52},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'meat':0.1,'fire pit':0.1},into:{'cooked meat':5000},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'seafood':0.1,'fire pit':0.1},into:{'cooked seafood':5000},every:1,repeat:5,mode:'cook'},
+			{type:'convert',from:{'meat':0.1,'salt':0.1,'fire pit':0.1},into:{'cured meat':502},every:1,repeat:10,mode:'cure'},
+			{type:'convert',from:{'seafood':0.1,'salt':0.1,'fire pit':0.1},into:{'cured seafood':502},every:1,repeat:10,mode:'cure'},
 		],
 		req:{'fire-making':true},
 		category:'crafting',
@@ -1911,7 +1911,7 @@ func:function()
 		staff:{'knapped tools':1},
 		upkeep:{'coin':0.1},
 		effects:[
-			{type:'gather',context:'chop',amount:1,max:10}
+			{type:'gather',context:'chop',amount:3,max:25}
 		],
 		req:{'woodcutting':true},
 		category:'production',
@@ -1928,7 +1928,7 @@ func:function()
 			'lumber':{name:'Cut logs into lumber',icon:[1,8],desc:'Cut [log]s into 3 [lumber] each.',use:{'worker':1,'stone tools':3},req:{}},
 		},
 		effects:[
-			{type:'convert',from:{'log':1},into:{'lumber':10},repeat:2,mode:'lumber'},
+			{type:'convert',from:{'log':1},into:{'lumber':14},repeat:2,mode:'lumber'},
 			{type:'waste',chance:0.00001/10000000000000000100000000000000000000000000000000000000000},
 		],
 		gizmos:true,
@@ -3560,7 +3560,7 @@ func:function()
 		desc:'The [oak] is a mighty tree that thrives in temperate climates, rich in [log]s and [stick]s.',
 		icon:[0,10],
 		res:{
-			'chop':{'log':3,'stick':6},
+			'chop':{'log':5,'stick':6},
 			'gather':{'stick':1.5},
 		},
 		affectedBy:['deforestation'],
@@ -3571,8 +3571,8 @@ func:function()
 		desc:'[birch,Birch trees] have white bark and are rather frail, but are a good source of [log]s and [stick]s.',
 		icon:[1,10],
 		res:{
-			'chop':{'log':1,'stick':1},
-			'gather':{'stick':1.5},
+			'chop':{'log':5,'stick':7},
+			'gather':{'stick':2.5},
 		},
 		affectedBy:['deforestation'],
 		mult:50,
@@ -3582,8 +3582,8 @@ func:function()
 		desc:'[palm tree]s prefer warm climates and provide [log]s when chopped; harvesting them may also yield [stick]s and [fruit]s such as bananas and coconuts.',
 		icon:[2,10],
 		res:{
-			'chop':{'log':1,'stick':1},
-			'gather':{'fruit':1,'stick':1},
+			'chop':{'log':3,'stick':4},
+			'gather':{'fruit':5,'stick':1},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3593,8 +3593,8 @@ func:function()
 		desc:'The [acacia,Acacia tree] tends to grow in warm, dry climates, and can be chopped for [log]s and harvested for [stick]s.',
 		icon:[8,10],
 		res:{
-			'chop':{'log':1,'stick':1},
-			'gather':{'stick':1},
+			'chop':{'log':4,'stick':5},
+			'gather':{'stick':3},
 		},
 		affectedBy:['deforestation'],
 		mult:5,
@@ -3604,7 +3604,7 @@ func:function()
 		desc:'[fir tree]s can endure cold climates and keep their needles year-long; they can provide [log]s and [stick]s.',
 		icon:[3,10],
 		res:{
-			'chop':{'log':1,'stick':1},
+			'chop':{'log':4,'stick':6},
 			'gather':{'stick':1},
 		},
 		affectedBy:['deforestation'],
@@ -3615,7 +3615,7 @@ func:function()
 		desc:'While an ornery sight, [dead tree]s are an adequate source of dry [log]s and [stick]s.',
 		icon:[9,10],
 		res:{
-			'chop':{'log':1,'stick':1},
+			'chop':{'log':7,'stick':12},
 			'gather':{'stick':1},
 		},
 		affectedBy:['deforestation'],
@@ -3626,7 +3626,7 @@ func:function()
 		desc:'[berry bush,Berry bushes] can be foraged for [fruit]s, [stick]s and sometimes [herb]s.',
 		icon:[4,10],
 		res:{
-			'gather':{'fruit':3,'stick':3,'herb':1.25},
+			'gather':{'fruit':7,'stick':3,'herb':1.25},
 		},
 		affectedBy:['scarce forageables'],
 		mult:10,
@@ -3668,7 +3668,7 @@ func:function()
 		icon:[0,11],
 		res:{
 			'gather':{'spoiled food':5},
-			'hunt':{'meat':2,'bone':2,'hide':2},
+			'hunt':{'meat':4,'bone':2,'hide':2},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3679,7 +3679,7 @@ func:function()
 		icon:[1,11],
 		res:{
 			'gather':{'spoiled food':0.5},
-			'hunt':{'meat':2,'bone':2,'hide':1},
+			'hunt':{'meat':5,'bone':2,'hide':1},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3690,7 +3690,7 @@ func:function()
 		icon:[2,11],
 		res:{
 			'gather':{'spoiled food':0.5},
-			'hunt':{'meat':2,'bone':2,'hide':2},
+			'hunt':{'meat':3,'bone':2,'hide':2},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3701,7 +3701,7 @@ func:function()
 		icon:[3,11],
 		res:{
 			'gather':{'spoiled food':1},
-			'hunt':{'meat':4,'bone':1,'hide':6},
+			'hunt':{'meat':6,'bone':1,'hide':6},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3712,7 +3712,7 @@ func:function()
 		icon:[5,11],
 		res:{
 			'gather':{'spoiled food':10},
-			'hunt':{'meat':4,'bone':1,'hide':1},
+			'hunt':{'meat':6,'bone':1,'hide':1},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3723,7 +3723,7 @@ func:function()
 		icon:[10,11],
 		res:{
 			'gather':{'spoiled food':100},
-			'hunt':{'meat':4,'bone':1,'hide':1},
+			'hunt':{'meat':6,'bone':1,'hide':1},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3734,7 +3734,7 @@ func:function()
 		icon:[4,11],
 		res:{
 			'gather':{'spoiled food':1},
-			'hunt':{'meat':3,'bone':1,'hide':5},
+			'hunt':{'meat':8,'bone':1,'hide':5},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3745,7 +3745,7 @@ func:function()
 		icon:[6,11],
 		res:{
 			'gather':{'spoiled food':50},
-			'hunt':{'meat':2,'bone':2,'hide':5},
+			'hunt':{'meat':4,'bone':2,'hide':5},
 		},
 		affectedBy:['over hunting'],
 		mult:50,
@@ -3756,7 +3756,7 @@ func:function()
 		icon:[7,11],
 		res:{
 			'gather':{'spoiled food':5},
-			'hunt':{'meat':5,'bone':5,'hide':5},
+			'hunt':{'meat':6,'bone':5,'hide':5},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3767,7 +3767,7 @@ func:function()
 		icon:[9,11],
 		res:{
 			'gather':{'spoiled food':1},
-			'hunt':{'meat':3,'bone':5,'hide':5},
+			'hunt':{'meat':6,'bone':5,'hide':5},
 		},
 		affectedBy:['over hunting'],
 		mult:5,
@@ -3835,10 +3835,10 @@ func:function()
 		desc:'A [rocky substrate] is found underneath most terrain types.//Surface [stone]s may be gathered by hand.//Digging often produces [mud], more [stone]s and occasionally [copper ore,Ores] and [clay].//Mining provides the best results, outputting a variety of [stone]s, rare [gold ore,Ores], and precious [gems].',
 		icon:[11,10],
 		res:{
-			'gather':{'stone':1.25,'clay':1.005,'limestone':1.005},
-			'dig':{'mud':1,'clay':1.15,'stone':1.6,'copper ore':1.01,'tin ore':1.01,'limestone':1.1,'salt':1.05},
-			'mine':{'stone':1,'copper ore':1.1,'tin ore':1.1,'iron ore':1.05,'gold ore':1.005,'coal':1.1,'salt':1.1,'gems':1.005},
-			'quarry':{'cut stone':1,'limestone':1.5,'marble':1.01},
+			'gather':{'stone':1.25,'clay':1.5005,'limestone':1.505},
+			'dig':{'mud':1,'clay':1.715,'stone':1.86,'copper ore':1.301,'tin ore':1.501,'limestone':1.71,'salt':1.605},
+			'mine':{'stone':1.5,'copper ore':1.1,'tin ore':1.71,'iron ore':1.705,'gold ore':1.7005,'coal':1.71,'salt':1.71,'gems':1.7005},
+			'quarry':{'cut stone':1.5,'limestone':1.5,'marble':1.701},
 		},
 		affectedBy:['mineral depletion'],
 		noAmount:true,
